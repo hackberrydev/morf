@@ -1,0 +1,22 @@
+require_relative "lib/josif/version"
+
+Gem::Specification.new do |spec|
+  spec.name          = "josif"
+  spec.version       = Josif::VERSION
+  spec.authors       = ["TODO: Write your name"]
+  spec.email         = ["TODO: Write your email"]
+
+  spec.summary       = "An experiment in morphogenesis"
+  spec.description   = "An experiment in morphogenesis."
+  spec.homepage      = ""
+  spec.license       = "MIT"
+
+  spec.files         = Dir.chdir(File.expand_path(__dir__)) do
+    Dir['lib/**/*.rb']
+  end
+
+  spec.required_ruby_version = ">= 2.5"
+
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "minitest", "~> 5.0"
+end
