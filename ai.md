@@ -35,17 +35,20 @@ Inspired by the following paper as a key inspiration:
 
 ## Coding & Testing Guidelines
 
-1. Follow standard Ruby conventions (Community Ruby style guide).
+1. Use StandardRB for Ruby code formatting and style enforcement.
+   ~un style checks (`bundle exec standardrb`) and auto-fix issues
+   (`bundle exec standardrb --fix`) before committing.
 2. Write tests using Minitest/spec syntax:
    ```ruby
    describe Cell do
-     it 'initializes with a state' do
+     it "initializes with a state" do
        ...
      end
    end
    ```
 3. Run tests with `bundle exec rake test`.
-4. Commit early and often with clear messages, ensuring tests pass before push.
+4. Commit early and often with clear messages, ensuring style checks
+   and tests pass before push.
 
 ## File Formatting Requirement
 
