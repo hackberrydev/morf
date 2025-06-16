@@ -1,7 +1,5 @@
-require "rake/testtask"
+require "minitest/test_task"
 
-Rake::TestTask.new do |t|
-  t.pattern = "test/**/*_test.rb"
-end
+Minitest::TestTask.create
 
 task default: %i[test]
