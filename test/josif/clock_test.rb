@@ -24,5 +24,14 @@ describe Josif::Clock do
 
       @subscriber.verify
     end
+
+    it "calls `tock` on all subscribers" do
+      @subscriber.expect :tock, nil
+
+      @clock.on_tock { @subscriber.tock }
+      @clock.cycle
+
+      @subscriber.verify
+    end
   end
 end
