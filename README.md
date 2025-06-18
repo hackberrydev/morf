@@ -1,4 +1,4 @@
-# josif
+# morf
 
 An experiment in morphogenesis.
 
@@ -7,7 +7,7 @@ An experiment in morphogenesis.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'josif'
+gem 'morf'
 ```
 
 And then execute:
@@ -16,14 +16,14 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install josif
+    $ gem install morf
 
 ## Usage
 
 Require the library:
 
 ```ruby
-require 'josif'
+require 'morf'
 ```
 
 ## Development

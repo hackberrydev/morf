@@ -1,9 +1,9 @@
-require "josif/clock"
+require "morf/clock"
 
-describe Josif::Clock do
+describe Morf::Clock do
   describe "#cycle" do
     before do
-      @clock = Josif::Clock.new
+      @clock = Morf::Clock.new
       @subscriber = Minitest::Mock.new
     end
 
