@@ -1,8 +1,8 @@
-require_relative "lib/josif/version"
+require_relative "lib/morf/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "josif"
-  spec.version       = Josif::VERSION
+  spec.name          = "morf"
+  spec.version       = Morf::VERSION
   spec.authors       = ["TODO: Write your name"]
   spec.email         = ["TODO: Write your email"]
 

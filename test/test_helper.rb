@@ -1,4 +1,4 @@
 require "bundler/setup"
-require "josif"
+require "morf"
 
 require "minitest/autorun"
