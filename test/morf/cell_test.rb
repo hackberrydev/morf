@@ -1,11 +1,11 @@
 require "morf/cell"
 
 class BrainStub
-  def next_state = nil
+  def next_state(_neighbourhood) = nil
 end
 
 class SensorStub
-  def sense = nil
+  def sense = [0, 1, 2]
 end
 
 describe Morf::Cell do
@@ -27,7 +27,7 @@ describe Morf::Cell do
 
     it "invokes brain each cycle" do
       brain = Minitest::Mock.new
-      brain.expect(:next_state, nil)
+      brain.expect(:next_state, nil, [[0, 1, 2]])
 
       Morf::Cell.new(brain: brain, sensor: SensorStub.new, clock: @clock)
 

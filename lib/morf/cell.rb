@@ -4,6 +4,7 @@ module Morf
       @brain = brain
       @sensor = sensor
 
+      @neighbourhood = nil
       @state = nil
 
       clock.on_tick { sense }
@@ -13,11 +14,11 @@ module Morf
     private
 
     def sense
-      @sensor.sense
+      @neighbourhood = @sensor.sense
     end
 
     def next_state
-      @state = @brain.next_state
+      @state = @brain.next_state(@neighbourhood)
     end
   end
 end
