@@ -1,5 +1,7 @@
 module Morf
   class Cell
+    attr_reader :state
+
     def initialize(brain:, sensor:, clock:)
       @brain = brain
       @sensor = sensor

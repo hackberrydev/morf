@@ -1,7 +1,7 @@
 require "morf/cell"
 
 class BrainStub
-  def next_state(_neighbourhood) = nil
+  def next_state(_neighbourhood) = 1
 end
 
 class SensorStub
@@ -34,6 +34,14 @@ describe Morf::Cell do
       @clock.cycle
 
       brain.verify
+    end
+
+    it "moves cell to the new state" do
+      cell = Morf::Cell.new(brain: BrainStub.new, sensor: SensorStub.new, clock: @clock)
+
+      @clock.cycle
+
+      _(cell.state).must_equal 1
     end
   end
 end
