@@ -1,11 +1,17 @@
 module Morf
   class Grid
-    def initialize(cell_class:, rows:, columns:)
+    def initialize(brain_class:, sensor_class:, clock:, rows:, columns:)
       @rows = rows
       @columns = columns
 
       @grid = Array.new(@rows) do
-        Array.new(@columns) { cell_class.new }
+        Array.new(@columns) do
+          Morf::Cell.new(
+            brain: brain_class.new,
+            sensor: sensor_class.new,
+            clock: clock
+          )
+        end
       end
     end
 
