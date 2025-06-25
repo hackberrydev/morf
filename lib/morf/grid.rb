@@ -1,3 +1,5 @@
+require "morf/cell"
+
 module Morf
   class Grid
     def initialize(brain_class:, sensor_class:, clock:, rows:, columns:)

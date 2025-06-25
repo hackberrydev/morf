@@ -1,0 +1,10 @@
+# StandardRB Configuration
+# For details, see https://github.com/testdouble/standard
+
+# Enforce a maximum line length of 100 characters for Ruby files
+max_line_length: 100
+
+# File patterns to lint
+patterns:
+  - "lib/**/*.rb"
+  - "test/**/*.rb"

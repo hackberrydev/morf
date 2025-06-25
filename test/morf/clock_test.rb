@@ -1,4 +1,4 @@
-require "morf/clock"
+require "test_helper"
 
 describe Morf::Clock do
   describe "#cycle" do

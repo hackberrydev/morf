@@ -38,6 +38,10 @@ build-iPhoneSimulator/
 /doc/
 /rdoc/
 
+# IDE metadata for Ruby LSP (Ruby Language Server Protocol)
+/.ruby-lsp/
+
+
 ## Environment normalization:
 /.bundle/
 /vendor/bundle

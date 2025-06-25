@@ -36,7 +36,7 @@ Inspired by the following paper as a key inspiration:
 ## Coding & Testing Guidelines
 
 1. Use StandardRB for Ruby code formatting and style enforcement.
-   ~un style checks (`bundle exec standardrb`) and auto-fix issues
+   Run style checks (`bundle exec standardrb`) and auto-fix issues
    (`bundle exec standardrb --fix`) before committing.
 2. Write tests using Minitest/spec syntax:
    ```ruby

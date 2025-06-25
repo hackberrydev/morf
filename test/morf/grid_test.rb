@@ -1,6 +1,4 @@
-require "morf/grid"
-require "morf/experiments/dummy/brain"
-require "morf/experiments/dummy/sensor"
+require "test_helper"
 
 describe Morf::Grid do
   describe "initialization" do
