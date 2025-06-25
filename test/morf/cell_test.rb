@@ -1,4 +1,4 @@
-require "morf/cell"
+require "test_helper"
 
 describe Morf::Cell do
   before do
