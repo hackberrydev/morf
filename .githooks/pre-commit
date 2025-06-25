@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+# Run StandardRB before each commit
+bundle exec standardrb
+status=$?
+if [ $status -ne 0 ]; then
+  echo
+  echo "✖ Code style violations detected. Run 'bundle exec standardrb --fix' to correct them before committing."
+  exit 1
+fi
+
+exit 0

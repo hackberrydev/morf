@@ -30,6 +30,12 @@ require 'morf'
 
 After checking out the repo, run `bundle install` to install dependencies.
 
+To enable the repository’s bundled Git hooks (e.g. style checks):
+
+```shell
+git config core.hooksPath .githooks
+```
+
 You can check style guide compliance with StandardRB:
 
 ```shell
