@@ -1,17 +1,13 @@
 require "morf/grid"
+require "morf/experiments/dummy/brain"
+require "morf/experiments/dummy/sensor"
 
 describe Morf::Grid do
   describe "initialization" do
     it "initializes a grid of cells with the correct number of rows and columns" do
-      brain_class = Minitest::Mock.new
-      brain_class.expect(:new, nil)
-
-      sensor_class = Minitest::Mock.new
-      sensor_class.expect(:new, nil)
-
       grid = Morf::Grid.new(
-        brain_class: brain_class,
-        sensor_class: sensor_class,
+        brain_class: Morf::Experiments::Dummy::Brain,
+        sensor_class: Morf::Experiments::Dummy::Sensor,
         clock: Morf::Clock.new,
         rows: 4,
         columns: 8
