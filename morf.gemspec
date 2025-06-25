@@ -3,8 +3,8 @@ require_relative "lib/morf/version"
 Gem::Specification.new do |spec|
   spec.name          = "morf"
   spec.version       = Morf::VERSION
-  spec.authors       = ["TODO: Write your name"]
-  spec.email         = ["TODO: Write your email"]
+  spec.authors       = ["Nebojsa Stricevic"]
+  spec.email         = ["strika@hackberry.dev"]
 
   spec.summary       = "An experiment in morphogenesis"
   spec.description   = "An experiment in morphogenesis."
