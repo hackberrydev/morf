@@ -10,7 +10,7 @@ module Morf
         def run
           clock = Morf::Clock.new
 
-          grid = Morf::Grid.new(
+          Morf::Grid.new(
             brain_class: Morf::Experiments::Dummy::Brain,
             sensor_class: Morf::Experiments::Dummy::Sensor,
             clock: clock,
