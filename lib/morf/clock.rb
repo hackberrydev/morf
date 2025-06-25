@@ -4,7 +4,7 @@ module Morf
   # Calling `cycle` will invoke all subscriber blocks in phase order: tick, tack, tock.
   #
   # @example
-	  #   clock = Morf::Clock.new
+  #   clock = Morf::Clock.new
   #   clock.on_tick { puts "tick" }
   #   clock.on_tack { puts "tack" }
   #   clock.on_tock { puts "tock" }
