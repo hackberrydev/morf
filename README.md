@@ -55,3 +55,11 @@ Finally, run the test suite:
 ```shell
 bundle exec rake test
 ```
+
+## Visualization
+
+A simple Ruby2D-based visualizer is available in `bin/visualize_grid.rb`. To run it:
+
+```bash
+bundle exec ruby bin/visualize_grid.rb
+```
