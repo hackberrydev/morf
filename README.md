@@ -7,7 +7,7 @@ An experiment in morphogenesis.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'morf'
+gem "morf"
 ```
 
 And then execute:
@@ -23,7 +23,7 @@ Or install it yourself as:
 Require the library:
 
 ```ruby
-require 'morf'
+require "morf"
 ```
 
 ## Development
