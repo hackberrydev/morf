@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 require "morf/cell"
 
 module Morf
   class Grid
+    attr_reader :rows, :columns
+
     def initialize(brain_class:, sensor_class:, clock:, rows:, columns:)
       @brain_class = brain_class
       @sensor_class = sensor_class
