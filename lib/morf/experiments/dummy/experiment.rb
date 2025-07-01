@@ -30,8 +30,6 @@ module Morf
           10.times do
             clock.cycle
 
-            grid_view.render
-
             sleep 1
           end
         end
