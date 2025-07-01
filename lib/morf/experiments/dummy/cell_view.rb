@@ -14,12 +14,17 @@ module Morf
         end
 
         def render
-          Rectangle.new(
+          rectangle.color = "random"
+        end
+
+        private
+
+        def rectangle
+          @rectangle ||= Rectangle.new(
             x: @x * @cell_size,
             y: @y * @cell_size,
             width: @cell_size,
-            height: @cell_size,
-            color: "random"
+            height: @cell_size
           )
         end
       end
