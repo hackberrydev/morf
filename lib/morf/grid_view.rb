@@ -15,7 +15,7 @@ module Morf
         height: @grid.rows * @cell_size
       )
 
-      Window.update do
+      Window.render do
         render_cells
       end
 
