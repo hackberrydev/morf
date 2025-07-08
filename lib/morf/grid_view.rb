@@ -1,25 +1,26 @@
 require "ruby2d"
 
 module Morf
-  class GridView
+  class GridView < Ruby2D::Window
     def initialize(grid:, cell_view_class:, cell_size: 5)
+      super()
+
       @grid = grid
       @cell_view_class = cell_view_class
       @cell_size = cell_size
-    end
 
-    def render
-      Window.set(
+      set(
         title: "Morf Experiment",
         width: @grid.columns * @cell_size,
         height: @grid.rows * @cell_size
       )
+    end
 
-      Window.render do
-        render_cells
-      end
+    def update
+    end
 
-      Window.show
+    def render
+      render_cells
     end
 
     def render_cells

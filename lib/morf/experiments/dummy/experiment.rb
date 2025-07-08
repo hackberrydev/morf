@@ -25,13 +25,22 @@ module Morf
             cell_view_class: Morf::Experiments::Dummy::CellView
           )
 
-          grid_view.render
+          # Blocks, so it doesn't work.
+          grid_view.show
 
           10.times do
             clock.cycle
 
+            grid_view.render_cells
+
             sleep 1
+
+            puts "Cycle..."
           end
+
+          grid_view.close
+
+          puts "Experiment done."
         end
       end
     end
