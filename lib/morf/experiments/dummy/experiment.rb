@@ -13,32 +13,22 @@ module Morf
           clock = Morf::Clock.new
 
           grid = Morf::Grid.new(
+            clock: clock,
             brain_class: Morf::Experiments::Dummy::Brain,
             sensor_class: Morf::Experiments::Dummy::Sensor,
-            clock: clock,
             rows: 100,
             columns: 100
           )
 
           grid_view = Morf::GridView.new(
+            clock: clock,
             grid: grid,
             cell_view_class: Morf::Experiments::Dummy::CellView
           )
 
-          # Blocks, so it doesn't work.
+          puts "Experiment start."
+
           grid_view.show
-
-          10.times do
-            clock.cycle
-
-            grid_view.render_cells
-
-            sleep 1
-
-            puts "Cycle..."
-          end
-
-          grid_view.close
 
           puts "Experiment done."
         end

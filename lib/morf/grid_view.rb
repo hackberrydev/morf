@@ -2,12 +2,17 @@ require "ruby2d"
 
 module Morf
   class GridView < Ruby2D::Window
-    def initialize(grid:, cell_view_class:, cell_size: 5)
+    def initialize(clock:, grid:, cell_view_class:, cell_size: 5, time_limit: 10)
       super()
 
+      @clock = clock
       @grid = grid
       @cell_view_class = cell_view_class
       @cell_size = cell_size
+      @time_limit = time_limit
+
+      @start_at = Time.now
+      @cycle = 0
 
       set(
         title: "Morf Experiment",
@@ -17,13 +22,14 @@ module Morf
     end
 
     def update
+      @clock.cycle if @cycle % 60 == 0
+
+      @cycle += 1
+
+      close if Time.now - @start_at > @time_limit
     end
 
     def render
-      render_cells
-    end
-
-    def render_cells
       cell_views.each(&:render)
     end
 
