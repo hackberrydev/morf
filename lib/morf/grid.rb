@@ -6,12 +6,13 @@ module Morf
   class Grid
     attr_reader :rows, :columns
 
-    def initialize(brain_class:, sensor_class:, clock:, rows:, columns:)
+    def initialize(brain_class:, sensor_class:, clock:, rows:, columns:, seed:)
       @brain_class = brain_class
       @sensor_class = sensor_class
       @clock = clock
       @rows = rows
       @columns = columns
+      @seed = seed
 
       @grid = initialize_grid
     end
@@ -32,7 +33,8 @@ module Morf
           grid[row][column] = Morf::Cell.new(
             brain: @brain_class.new,
             sensor: @sensor_class.new(grid: grid, row: row, column: column),
-            clock: @clock
+            clock: @clock,
+            initial_state: @seed.state_for(row: row, column: column)
           )
         end
       end
