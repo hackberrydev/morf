@@ -5,7 +5,7 @@ describe Morf::Cell do
     @brain = Minitest::Mock.new
     @sensor = Minitest::Mock.new
     @clock = Morf::Clock.new
-    @initial_state = 0
+    @state = 0
   end
 
   describe "initialization" do
@@ -14,21 +14,21 @@ describe Morf::Cell do
         brain: @brain,
         sensor: @sensor,
         clock: @clock,
-        initial_state: @initial_state
+        state: @state
       )
 
-      _(cell.state).must_equal @initial_state
+      _(cell.state).must_equal @state
     end
 
     it "invokes sensor each cycle" do
       @sensor.expect(:sense, 0)
-      @brain.expect(:next_state, 1, [@initial_state, 0])
+      @brain.expect(:next_state, 1, [@state, 0])
 
       Morf::Cell.new(
         brain: @brain,
         sensor: @sensor,
         clock: @clock,
-        initial_state: @initial_state
+        state: @state
       )
 
       @clock.cycle
@@ -37,14 +37,14 @@ describe Morf::Cell do
     end
 
     it "invokes brain each cycle" do
-      @brain.expect(:next_state, 1, [@initial_state, 0])
+      @brain.expect(:next_state, 1, [@state, 0])
       @sensor.expect(:sense, 0)
 
       Morf::Cell.new(
         brain: @brain,
         sensor: @sensor,
         clock: @clock,
-        initial_state: @initial_state
+        state: @state
       )
 
       @clock.cycle
@@ -53,14 +53,14 @@ describe Morf::Cell do
     end
 
     it "moves cell to the new state" do
-      @brain.expect(:next_state, 1, [@initial_state, 0])
+      @brain.expect(:next_state, 1, [@state, 0])
       @sensor.expect(:sense, 0)
 
       cell = Morf::Cell.new(
         brain: @brain,
         sensor: @sensor,
         clock: @clock,
-        initial_state: @initial_state
+        state: @state
       )
 
       @clock.cycle

@@ -34,7 +34,7 @@ module Morf
             brain: @brain_class.new,
             sensor: @sensor_class.new(grid: grid, row: row, column: column),
             clock: @clock,
-            initial_state: @seed.state_for(row: row, column: column)
+            state: @seed.state_for(row: row, column: column)
           )
         end
       end

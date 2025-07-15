@@ -2,12 +2,12 @@ module Morf
   class Cell
     attr_reader :state
 
-    def initialize(brain:, sensor:, clock:, initial_state:)
+    def initialize(brain:, sensor:, clock:, state:)
       @brain = brain
       @sensor = sensor
+      @state = state
 
       @neighbourhood = nil
-      @state = initial_state
 
       clock.on_tick { sense }
       clock.on_tack { next_state }
