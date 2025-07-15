@@ -8,6 +8,7 @@ This section summarizes the key architectural decisions for the Game of Life exp
 
 - **State Representation**: A cell's state will be represented by an integer: `1` for alive, `0` for dead.
 - **TDD Workflow**: All core logic components (Brain, Sensor, Seed) must be developed using a strict Test-Driven Development (TDD) cycle: Red, Green, Refactor.
+- **Task Tracking**: This `TODO.md` file should be updated after each completed step.
 - **Component Interfaces**:
   - `GameOfLife::Brain`
     - `next_state(current_state, live_neighbors_count)`: Returns the cell's next state (`0` or `1`).
@@ -21,8 +22,8 @@ This section summarizes the key architectural decisions for the Game of Life exp
 ## Game of Life Experiment
 
 - [ ] **Core Logic (TDD)**
-    - [ ] Create `test/morf/experiments/game_of_life/brain_test.rb`
-    - [ ] Create `lib/morf/experiments/game_of_life/brain.rb`
+    - [x] Create `test/morf/experiments/game_of_life/brain_test.rb`
+    - [x] Create `lib/morf/experiments/game_of_life/brain.rb`
     - [ ] Create `test/morf/experiments/game_of_life/sensor_test.rb`
     - [ ] Create `lib/morf/experiments/game_of_life/sensor.rb`
     - [ ] Create `test/morf/experiments/game_of_life/seed_test.rb`
