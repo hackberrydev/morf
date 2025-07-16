@@ -24,8 +24,8 @@ This section summarizes the key architectural decisions for the Game of Life exp
 - [ ] **Core Logic (TDD)**
     - [x] Create `test/morf/experiments/game_of_life/brain_test.rb`
     - [x] Create `lib/morf/experiments/game_of_life/brain.rb`
-    - [ ] Create `test/morf/experiments/game_of_life/sensor_test.rb`
-    - [ ] Create `lib/morf/experiments/game_of_life/sensor.rb`
+    - [x] Create `test/morf/experiments/game_of_life/sensor_test.rb`
+    - [x] Create `lib/morf/experiments/game_of_life/sensor.rb`
     - [ ] Create `test/morf/experiments/game_of_life/seed_test.rb`
     - [ ] Create `lib/morf/experiments/game_of_life/seed.rb`
 

@@ -32,7 +32,7 @@ module Morf
         (0...@columns).each do |column|
           grid[row][column] = Morf::Cell.new(
             brain: @brain_class.new,
-            sensor: @sensor_class.new(grid: grid, row: row, column: column),
+            sensor: @sensor_class.new(grid: self, row: row, column: column),
             clock: @clock,
             state: @seed.state_for(row: row, column: column)
           )
