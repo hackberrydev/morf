@@ -12,8 +12,6 @@ module Morf
 
         def sense
           count = 0
-          rows = @grid.rows
-          columns = @grid.columns
 
           (-1..1).each do |y_offset|
             (-1..1).each do |x_offset|
@@ -21,9 +19,6 @@ module Morf
 
               y = @row + y_offset
               x = @column + x_offset
-
-              next if y.negative? || y >= rows
-              next if x.negative? || x >= columns
 
               count += @grid.cell(row: y, column: x).state
             end

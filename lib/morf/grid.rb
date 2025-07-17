@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "morf/cell"
+require "morf/null_cell"
 
 module Morf
   class Grid
@@ -14,10 +15,14 @@ module Morf
       @columns = columns
       @seed = seed
 
+      @null_cell = Morf::NullCell.new(state: @seed.default_state)
       @grid = initialize_grid
     end
 
     def cell(row:, column:)
+      return @null_cell if row.negative? || row >= @rows
+      return @null_cell if column.negative? || column >= @columns
+
       @grid[row][column]
     end
 

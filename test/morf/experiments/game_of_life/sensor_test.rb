@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require "morf/experiments/game_of_life/sensor"
 require "morf/cell"
+require "morf/null_cell"
 require "morf/clock"
+require "morf/experiments/game_of_life/sensor"
 
 describe Morf::Experiments::GameOfLife::Sensor do
   let(:clock) { Morf::Clock.new }
@@ -15,8 +16,6 @@ describe Morf::Experiments::GameOfLife::Sensor do
   describe "#sense" do
     it "returns 0 when there are no neighbors" do
       grid = Minitest::Mock.new
-      grid.expect :rows, 3
-      grid.expect :columns, 3
       (0..2).each do |y|
         (0..2).each do |x|
           next if y == 1 && x == 1
@@ -32,8 +31,6 @@ describe Morf::Experiments::GameOfLife::Sensor do
 
     it "counts the number of live neighbors" do
       grid = Minitest::Mock.new
-      grid.expect :rows, 3
-      grid.expect :columns, 3
       (0..2).each do |y|
         (0..2).each do |x|
           next if y == 1 && x == 1
@@ -49,8 +46,6 @@ describe Morf::Experiments::GameOfLife::Sensor do
 
     it "does not count itself" do
       grid = Minitest::Mock.new
-      grid.expect :rows, 3
-      grid.expect :columns, 3
       (0..2).each do |y|
         (0..2).each do |x|
           next if y == 1 && x == 1
@@ -65,12 +60,15 @@ describe Morf::Experiments::GameOfLife::Sensor do
     end
 
     it "handles edge cases correctly" do
-      grid = Minitest::Mock.new
-      grid.expect :rows, 2
-      grid.expect :columns, 2
-      grid.expect :cell, live_cell, row: 0, column: 1
-      grid.expect :cell, live_cell, row: 1, column: 0
-      grid.expect :cell, live_cell, row: 1, column: 1
+      grid = Object.new
+
+      def grid.cell(row:, column:)
+        if [[0, 1], [1, 0], [1, 1]].include?([row, column])
+          Morf::NullCell.new(state: 1)
+        else
+          Morf::NullCell.new(state: 0)
+        end
+      end
 
       sensor = Morf::Experiments::GameOfLife::Sensor.new(grid: grid, row: 0, column: 0)
 
