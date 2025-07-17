@@ -25,9 +25,10 @@ module Morf
               next if y.negative? || y >= rows
               next if x.negative? || x >= columns
 
-              count += 1 if @grid.cell(row: y, column: x).state == 1
+              count += @grid.cell(row: y, column: x).state
             end
           end
+
           count
         end
       end
