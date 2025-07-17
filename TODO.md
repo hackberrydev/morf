@@ -16,6 +16,8 @@ This section summarizes the key architectural decisions for the Game of Life exp
     - `sense`: Returns the number of live neighbors (`0` to `8`).
   - `GameOfLife::Seed`
     - `state_for(row:, column:)`: Returns the initial state (`0` or `1`) for a given cell.
+    - `default_state`: Returns the state for out-of-bounds cells.
+- **Grid Design**: The `Grid` uses a `NullCell` for out-of-bounds access. The `NullCell`'s state is determined by the `Seed#default_state` method.
 
 ---
 
