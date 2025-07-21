@@ -20,13 +20,16 @@ module Morf
     end
 
     def cell(row:, column:)
-      return @null_cell if row.negative? || row >= @rows
-      return @null_cell if column.negative? || column >= @columns
+      return @null_cell if out_of_bounds?(row: row, column: column)
 
       @grid[row][column]
     end
 
     private
+
+    def out_of_bounds?(row:, column:)
+      row.negative? || row >= @rows || column.negative? || column >= @columns
+    end
 
     def initialize_grid
       grid = []
