@@ -35,20 +35,29 @@ Inspired by the following paper as a key inspiration:
 
 ## Coding & Testing Guidelines
 
-1. Use StandardRB for Ruby code formatting and style enforcement.
-   Run style checks (`bundle exec standardrb`) and auto-fix issues
-   (`bundle exec standardrb --fix`) before committing.
-2. Write tests using Minitest/spec syntax:
-   ```ruby
-   describe Cell do
-     it "initializes with a state" do
-       ...
-     end
-   end
-   ```
-3. Run tests with `bundle exec rake test`.
-4. Commit early and often with clear messages, ensuring style checks
-   and tests pass before push.
+1.  Use StandardRB for Ruby code formatting and style enforcement.
+    Run style checks (`bundle exec standardrb`) and auto-fix issues
+    (`bundle exec standardrb --fix`) before committing.
+2.  Write tests using Minitest's spec DSL syntax.
+    - Use the single-line, fully-qualified style for top-level `describe` blocks.
+      ```ruby
+      # Good:
+      describe Morf::MyClass do
+        # ...
+      end
+      ```
+    - Use the `_(object)` expectation syntax for assertions.
+      ```ruby
+      # Good:
+      _(result).must_equal expected
+
+      # Avoid (deprecated):
+      result.must_equal expected
+      ```
+    - Add a blank line after each `it` block to improve readability.
+3.  Run tests with `bundle exec rake test`.
+4.  Commit early and often with clear messages, ensuring style checks
+    and tests pass before push.
 
 ## File Formatting Requirement
 

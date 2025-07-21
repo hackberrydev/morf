@@ -7,6 +7,12 @@ describe Morf::Clock do
       @subscriber = Minitest::Mock.new
     end
 
+    it "returns the number of cycles" do
+      8.times { @clock.cycle }
+
+      _(@clock.cycle).must_equal 9
+    end
+
     it "calls `tick` on all subscribers" do
       @subscriber.expect :tick, nil
 

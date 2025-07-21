@@ -13,7 +13,11 @@ module Morf
   #   # => tack
   #   # => tock
   class Clock
+    attr_reader :cycle_count
+
     def initialize
+      @cycle_count = 0
+
       @tick_subscribers = []
       @tack_subscribers = []
       @tock_subscribers = []
@@ -32,9 +36,13 @@ module Morf
     end
 
     def cycle
+      @cycle_count += 1
+
       @tick_subscribers.each(&:call)
       @tack_subscribers.each(&:call)
       @tock_subscribers.each(&:call)
+
+      @cycle_count
     end
   end
 end

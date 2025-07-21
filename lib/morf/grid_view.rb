@@ -12,7 +12,6 @@ module Morf
       @time_limit = time_limit
 
       @start_at = Time.now
-      @cycle = 0
     end
 
     def show
@@ -23,11 +22,13 @@ module Morf
       )
 
       Window.update do
-        @clock.cycle if @cycle % 60 == 0
+        @clock.cycle
 
-        @cycle += 1
+        if Time.now - @start_at > @time_limit
+          Window.close
 
-        Window.close if Time.now - @start_at > @time_limit
+          puts "Completed #{@clock.cycle_count} cycles in #{@time_limit}s."
+        end
       end
 
       Window.render do
