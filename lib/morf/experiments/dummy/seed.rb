@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Morf
   module Experiments
     module Dummy

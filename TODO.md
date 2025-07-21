@@ -28,8 +28,8 @@ This section summarizes the key architectural decisions for the Game of Life exp
     - [x] Create `lib/morf/experiments/game_of_life/brain.rb`
     - [x] Create `test/morf/experiments/game_of_life/sensor_test.rb`
     - [x] Create `lib/morf/experiments/game_of_life/sensor.rb`
-    - [ ] Create `test/morf/experiments/game_of_life/seed_test.rb`
-    - [ ] Create `lib/morf/experiments/game_of_life/seed.rb`
+    - [x] Create `test/morf/experiments/game_of_life/seed_test.rb`
+    - [x] Create `lib/morf/experiments/game_of_life/seed.rb`
 
 - [ ] **Visualization**
     - [ ] Create `lib/morf/experiments/game_of_life/cell_view.rb`
