@@ -23,7 +23,7 @@ module Morf
       )
 
       Window.update do
-        @clock.cycle if @cycle % 60 == 0
+        @clock.cycle
 
         @cycle += 1
 
