@@ -1,6 +1,6 @@
-# AI Directive for Morphogenesis Ruby Project
+# Gemini Directive for Morphogenesis Ruby Project
 
-This file contains the project description and guidelines that OpenAI Codex
+This file contains the project description and guidelines that Gemini
 should load on each session startup.
 
 ## Project Overview
@@ -9,10 +9,16 @@ Project Name: Morphogenesis
 Language: Ruby
 Goal: Explore morphogenesis with cellular automata in an object-oriented style.
 
-Inspired by the following paper as a key inspiration:
+The project is inspired by the following papers:
+
 > **CA-NEAT: Evolved Compositional Pattern Producing Networks for Cellular
 > Automata Morphogenesis and Replication**
 > (Amos et al., GECCO 2018)
+
+> **ARC-NCA: Towards Developmental Solutions to the Abstraction and Reasoning Corpus**
+> (TBD et al., May 2025)
+
+A key concept to explore is the **French Flag Problem**.
 
 ## Core Principles
 
@@ -20,8 +26,9 @@ Inspired by the following paper as a key inspiration:
    - Modular classes for cells, grids, patterns, and evolutionary operators.
 2. **Extensibility**
    - Easy to add new automaton rules, fitness metrics, and mutation strategies.
-3. **BDD-style Testing**
+3. **TDD/BDD-style Testing**
    - Use Minitest with spec-style syntax for behavior-driven development.
+   - The project plans to migrate to RSpec in the near future.
 
 ## Directory Structure
 
@@ -29,7 +36,7 @@ Inspired by the following paper as a key inspiration:
 .
 ├── lib/      # Ruby source files
 ├── test/     # Minitest BDD test files
-├── ai.md     # Codex startup directives
+├── GEMINI.md # Gemini startup directives
 └── README.md # Project overview and usage instructions
 ```
 
@@ -65,4 +72,4 @@ All Markdown and plain text files in this project **must** wrap lines at a maxim
 characters.
 
 ---
-*End of AI configuration. Do not modify without updating Codex context.*
+*End of Gemini configuration. Do not modify without updating Gemini context.*
