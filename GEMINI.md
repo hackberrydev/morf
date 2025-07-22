@@ -27,15 +27,14 @@ A key concept to explore is the **French Flag Problem**.
 2. **Extensibility**
    - Easy to add new automaton rules, fitness metrics, and mutation strategies.
 3. **TDD/BDD-style Testing**
-   - Use Minitest with spec-style syntax for behavior-driven development.
-   - The project plans to migrate to RSpec in the near future.
+   - Use RSpec for behavior-driven development.
 
 ## Directory Structure
 
 ```
 .
 ├── lib/      # Ruby source files
-├── test/     # Minitest BDD test files
+├── spec/     # RSpec test files
 ├── GEMINI.md # Gemini startup directives
 └── README.md # Project overview and usage instructions
 ```
@@ -45,24 +44,11 @@ A key concept to explore is the **French Flag Problem**.
 1.  Use StandardRB for Ruby code formatting and style enforcement.
     Run style checks (`bundle exec standardrb`) and auto-fix issues
     (`bundle exec standardrb --fix`) before committing.
-2.  Write tests using Minitest's spec DSL syntax.
-    - Use the single-line, fully-qualified style for top-level `describe` blocks.
-      ```ruby
-      # Good:
-      describe Morf::MyClass do
-        # ...
-      end
-      ```
-    - Use the `_(object)` expectation syntax for assertions.
-      ```ruby
-      # Good:
-      _(result).must_equal expected
-
-      # Avoid (deprecated):
-      result.must_equal expected
-      ```
-    - Add a blank line after each `it` block to improve readability.
-3.  Run tests with `bundle exec rake test`.
+2.  Write tests using RSpec.
+    - Use `RSpec.describe` for top-level example groups.
+    - Use `let` and `let!` to define test data and memoize it across examples.
+    - Use the `expect(...).to` syntax for assertions.
+3.  Run tests with `bundle exec rspec`.
 4.  Commit early and often with clear messages, ensuring style checks
     and tests pass before push.
 

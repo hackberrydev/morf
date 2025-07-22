@@ -8,3 +8,7 @@ max_line_length: 100
 patterns:
   - "lib/**/*.rb"
   - "test/**/*.rb"
+  - "spec/**/*.rb"
+
+ignore:
+  - "spec/spec_helper.rb"

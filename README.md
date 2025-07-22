@@ -53,5 +53,5 @@ Standard is also integrated into the default Rake task.
 Finally, run the test suite:
 
 ```shell
-bundle exec rake test
+bundle exec rspec
 ```

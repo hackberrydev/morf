@@ -1,5 +1,5 @@
-require "minitest/test_task"
+require "rspec/core/rake_task"
 
-Minitest::TestTask.create
+RSpec::Core::RakeTask.new(:spec)
 
-task default: %i[test]
+task default: :spec
