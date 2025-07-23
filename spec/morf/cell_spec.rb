@@ -1,19 +1,19 @@
 require "spec_helper"
 
 RSpec.describe Morf::Cell do
-  let(:clock) { Morf::Clock.new }
-  let(:state) { 0 }
-  let(:sensor) { instance_double("Sensor", sense: 0) }
-  let(:brain) { instance_double("Brain", next_state: 1) }
-
   subject!(:cell) do
-    Morf::Cell.new(
+    described_class.new(
       brain: brain,
       sensor: sensor,
       clock: clock,
       state: state
     )
   end
+
+  let(:clock) { Morf::Clock.new }
+  let(:state) { 0 }
+  let(:sensor) { double("Sensor", sense: 0) }
+  let(:brain) { double("Brain", next_state: 1) }
 
   describe "initialization" do
     it "initializes with a state" do

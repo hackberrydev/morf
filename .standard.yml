@@ -1,6 +1,9 @@
 # StandardRB Configuration
 # For details, see https://github.com/testdouble/standard
 
+plugins:
+  - standard-rspec
+
 # Enforce a maximum line length of 100 characters for Ruby files
 max_line_length: 100
 
@@ -11,4 +14,7 @@ patterns:
   - "spec/**/*.rb"
 
 ignore:
+  - "spec/**/*":
+    - "RSpec/VerifiedDoubles"
+    - "RSpec/ExampleLength"
   - "spec/spec_helper.rb"
