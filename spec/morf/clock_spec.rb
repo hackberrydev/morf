@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe Morf::Clock do
   describe "#cycle" do
-    let(:clock) { Morf::Clock.new }
+    let(:clock) { described_class.new }
     let(:subscriber) { double("subscriber") }
 
     it "returns the number of cycles" do

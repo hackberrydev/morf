@@ -4,12 +4,12 @@ require "spec_helper"
 require "morf/experiments/game_of_life/seed"
 
 RSpec.describe Morf::Experiments::GameOfLife::Seed do
-  let(:seed) { Morf::Experiments::GameOfLife::Seed.new }
+  let(:seed) { described_class.new }
 
   describe "#state_for(row:, column:)" do
     it "returns 1 for alive or 0 for dead" do
       state = seed.state_for(row: 0, column: 0)
-      expect([0, 1]).to include(state)
+      expect(state).to eq(0).or(eq(1))
     end
   end
 
