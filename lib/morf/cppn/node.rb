@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "morf/cppn/activation_functions"
+
 module Morf
   module CPPN
     class Node

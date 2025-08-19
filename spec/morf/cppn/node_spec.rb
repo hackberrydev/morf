@@ -2,7 +2,6 @@
 
 require "spec_helper"
 require "morf/cppn/node"
-require "morf/cppn/activation_functions"
 
 RSpec.describe Morf::CPPN::Node do
   subject(:node) { described_class.new(id: 1, layer: :input, activation_function: :sigmoid) }
