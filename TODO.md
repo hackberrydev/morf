@@ -20,14 +20,14 @@ The project is divided into two main phases:
 
 In this phase, we will focus on building the "brain" of our cellular automata, the CPPN.
 
-- [ ] **Create the `Morf::CPPN` module:**
+- [x] **Create the `Morf::CPPN` module:**
   - This module will contain all the classes related to the CPPN implementation.
 
-- [ ] **Implement `Morf::CPPN::Node`:**
+- [x] **Implement `Morf::CPPN::Node`:**
   - Represents a neuron in the network.
   - Should have an activation function.
 
-- [ ] **Implement `Morf::CPPN::Connection`:**
+- [x] **Implement `Morf::CPPN::Connection`:**
   - Represents a connection between two nodes.
   - Should have a weight.
 
@@ -35,12 +35,11 @@ In this phase, we will focus on building the "brain" of our cellular automata, t
   - Represents the entire CPPN.
   - Should hold the nodes and connections.
   - Should have a method to evaluate the network for a given set of inputs.
+  - **Next Step:** Implement the `evaluate` method. We have already created a failing test for it.
 
-- [ ] **Implement Activation Functions:**
+- [x] **Implement Activation Functions:**
   - Create a set of activation functions that can be used by the CPPN nodes.
-  - Start with the following functions:
-    - Sigmoid
-    - Identity
+  - We have implemented `sigmoid` and `identity`.
 
 - [ ] **Integrate CPPN with the Cellular Automata:**
   - Create a `Morf::CPPN::Brain` class that uses a CPPN to calculate the next state of a cell.
