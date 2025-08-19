@@ -8,8 +8,8 @@ require "morf/cppn/network"
 RSpec.describe Morf::CPPN::Network do
   subject(:network) { described_class.new(nodes: nodes, connections: connections) }
 
-  let(:input_node) { Morf::CPPN::Node.new(id: 1, layer: :input) }
-  let(:output_node) { Morf::CPPN::Node.new(id: 2, layer: :output) }
+  let(:input_node) { Morf::CPPN::Node.new(id: 1, layer: :input, activation_function: :sigmoid) }
+  let(:output_node) { Morf::CPPN::Node.new(id: 2, layer: :output, activation_function: :sigmoid) }
   let(:nodes) { [input_node, output_node] }
   let(:connections) { [Morf::CPPN::Connection.new(input_node: input_node, output_node: output_node, weight: 0.5)] }
 
