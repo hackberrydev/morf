@@ -91,3 +91,4 @@ evolve the CPPNs.
 - We will be following a TDD/BDD approach, so we will be writing tests for all the new classes.
 - We will keep the existing directory structure and conventions.
 - We will commit our changes frequently with clear and descriptive messages.
+- We will commit our changes after each step of the implementation.
