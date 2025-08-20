@@ -8,6 +8,15 @@ module Morf
       def initialize(nodes:, connections:)
         @nodes = nodes
         @connections = connections
+        populate_incoming_connections
+      end
+
+      private
+
+      def populate_incoming_connections
+        @connections.each do |connection|
+          connection.output_node.add_incoming_connection(connection)
+        end
       end
     end
   end
