@@ -31,18 +31,18 @@ In this phase, we will focus on building the "brain" of our cellular automata, t
   - Represents a connection between two nodes.
   - Should have a weight.
 
-- [ ] **Implement `Morf::CPPN::Network`:**
+- [x] **Implement `Morf::CPPN::Network`:**
   - Represents the entire CPPN.
   - Should hold the nodes and connections.
   - Should have a method to evaluate the network for a given set of inputs.
-  - **Next Step:** Implement the `evaluate` method. We have already created a failing test for it.
 
 - [x] **Implement Activation Functions:**
   - Create a set of activation functions that can be used by the CPPN nodes.
   - We have implemented `sigmoid` and `identity`.
 
 - [ ] **Integrate CPPN with the Cellular Automata:**
-  - Create a `Morf::CPPN::Brain` class that uses a CPPN to calculate the next state of a cell.
+  - **Next Step:** Create a `Morf::CPPN::Brain` class that uses a CPPN to calculate the next state of a
+    cell.
   - The brain will take the cell's coordinates and other inputs as defined by the substrate.
 
 - [ ] **Create a CPPN Experiment:**
