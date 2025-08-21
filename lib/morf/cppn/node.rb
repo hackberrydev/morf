@@ -40,6 +40,14 @@ module Morf
       def activate(value)
         ActivationFunctions.send(activation_function, value)
       end
+
+      def input?
+        layer == :input
+      end
+
+      def output?
+        layer == :output
+      end
     end
   end
 end

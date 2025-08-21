@@ -14,10 +14,8 @@ module Morf
       def evaluate(inputs)
         @nodes.each(&:reset_cache)
 
-        # TODO: Implement `Node#input?` and refactor this filtering.
-        input_nodes = @nodes.select { |n| n.layer == :input }
-        # TODO: Implement `Node#output?` and refactor this filtering.
-        output_nodes = @nodes.select { |n| n.layer == :output }
+        input_nodes = @nodes.select(&:input?)
+        output_nodes = @nodes.select(&:output?)
 
         input_nodes.each_with_index do |node, i|
           node.input = inputs[i]

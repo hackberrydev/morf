@@ -59,4 +59,32 @@ RSpec.describe Morf::CPPN::Node do
       end
     end
   end
+
+  describe "#input?" do
+    it "returns true when node is an input node" do
+      node = described_class.new(id: 1, layer: :input, activation_function: :identity)
+
+      expect(node.input?).to be true
+    end
+
+    it "returns false when node is not an input node" do
+      node = described_class.new(id: 1, layer: :output, activation_function: :identity)
+
+      expect(node.input?).to be false
+    end
+  end
+
+  describe "#output?" do
+    it "returns true when node is an output node" do
+      node = described_class.new(id: 1, layer: :output, activation_function: :identity)
+
+      expect(node.output?).to be true
+    end
+
+    it "returns false when node is not an output node" do
+      node = described_class.new(id: 1, layer: :input, activation_function: :identity)
+
+      expect(node.output?).to be false
+    end
+  end
 end
