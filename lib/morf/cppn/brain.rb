@@ -10,7 +10,8 @@ module Morf
       end
 
       def next_state(state, inputs)
-        @network.evaluate([state] + inputs).first
+        outputs = @network.evaluate([state] + inputs)
+        outputs.each_with_index.max[1]
       end
     end
   end

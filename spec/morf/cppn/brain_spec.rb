@@ -14,7 +14,7 @@ RSpec.describe Morf::CPPN::Brain do
     let(:inputs) { [0.5, 0.25] }
 
     before do
-      allow(network).to receive(:evaluate).and_return([0.75])
+      allow(network).to receive(:evaluate).and_return([0.1, 0.8, 0.3])
     end
 
     it "calls the network's evaluate method with the correct inputs" do
@@ -22,9 +22,9 @@ RSpec.describe Morf::CPPN::Brain do
       expect(network).to have_received(:evaluate).with([state] + inputs)
     end
 
-    it "returns the first element of the network's output" do
+    it "returns the index of the highest output value" do
       output = brain.next_state(state, inputs)
-      expect(output).to eq(0.75)
+      expect(output).to eq(1)
     end
   end
 end
