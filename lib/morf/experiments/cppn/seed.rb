@@ -2,7 +2,7 @@
 
 module Morf
   module Experiments
-    module Cppn
+    module CPPN
       # The Seed class determines the initial state of cells in the CPPN experiment.
       class Seed
         # Returns the initial state for a given cell.

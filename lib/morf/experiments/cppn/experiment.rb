@@ -8,16 +8,16 @@ require "morf/experiments/cppn/seed"
 
 module Morf
   module Experiments
-    module Cppn
+    module CPPN
       class Experiment
         def run
           clock = Morf::Clock.new
 
           grid = Morf::Grid.new(
             clock: clock,
-            brain_class: Morf::Experiments::Cppn::Brain,
+            brain_class: Morf::Experiments::CPPN::Brain,
             sensor_class: Morf::CPPN::Sensor,
-            seed: Morf::Experiments::Cppn::Seed.new,
+            seed: Morf::Experiments::CPPN::Seed.new,
             rows: 6,
             columns: 6
           )
@@ -25,7 +25,7 @@ module Morf
           grid_view = Morf::GridView.new(
             clock: clock,
             grid: grid,
-            cell_view_class: Morf::Experiments::Cppn::CellView,
+            cell_view_class: Morf::Experiments::CPPN::CellView,
             cell_size: 20,
             time_limit: 30
           )

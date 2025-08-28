@@ -3,7 +3,7 @@
 require "spec_helper"
 require "morf/experiments/cppn/seed"
 
-RSpec.describe Morf::Experiments::Cppn::Seed do
+RSpec.describe Morf::Experiments::CPPN::Seed do
   subject(:seed) { described_class.new }
 
   describe "#state_for(row:, column:)" do

@@ -4,7 +4,7 @@ require "ruby2d"
 
 module Morf
   module Experiments
-    module Cppn
+    module CPPN
       class CellView
         COLORS = {
           0 => "white",

@@ -5,7 +5,7 @@ require "morf/experiments/cppn/cell_view"
 require "morf/cell"
 require "ruby2d"
 
-RSpec.describe Morf::Experiments::Cppn::CellView do
+RSpec.describe Morf::Experiments::CPPN::CellView do
   subject(:cell_view) do
     described_class.new(cell: cell, cell_size: cell_size, x: x, y: y)
   end
