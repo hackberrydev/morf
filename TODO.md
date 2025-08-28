@@ -63,8 +63,8 @@ In this phase, we will focus on building the "brain" of our cellular automata, t
   - Classes in `Morf::CPPN` module implemented attribute accessors.
   - Reviewed all accessors and removed unnecessary ones from `Morf::CPPN::Network` to improve encapsulation.
 
-- [ ] **Implement All Activation Functions:**
-  - Implement all activation functions listed in the "CA-NEAT" paper.
+- [x] **Implement All Activation Functions:**
+  - Implemented all activation functions listed in the "CA-NEAT" paper.
 
 ---
 
