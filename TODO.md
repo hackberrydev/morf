@@ -59,8 +59,9 @@ In this phase, we will focus on building the "brain" of our cellular automata, t
   - After reviewing the Ruby style guide, we decided to use `CPPN` for the module name.
   - All modules have been updated to use the `CPPN` naming convention.
 
-- [ ] **Review Accessors:**
-  - Classes in `Morf::CPPN` module implement attribute accessors. Review if all accessors are needed and if any of the classes breaks encapsulation.
+- [x] **Review Accessors:**
+  - Classes in `Morf::CPPN` module implemented attribute accessors.
+  - Reviewed all accessors and removed unnecessary ones from `Morf::CPPN::Network` to improve encapsulation.
 
 - [ ] **Implement All Activation Functions:**
   - Implement all activation functions listed in the "CA-NEAT" paper.

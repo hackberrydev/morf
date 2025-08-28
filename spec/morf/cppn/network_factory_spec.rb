@@ -42,8 +42,9 @@ RSpec.describe Morf::CPPN::NetworkFactory do
     end
 
     it "creates a fully connected network" do
-      total_connections = num_inputs * num_outputs
-      expect(network.connections.size).to eq(total_connections)
+      network.output_nodes.each do |output_node|
+        expect(output_node.incoming_connections.size).to eq(num_inputs)
+      end
     end
   end
 end
