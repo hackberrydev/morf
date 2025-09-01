@@ -35,16 +35,18 @@ module Morf
         @cached_value = activate(sum)
       end
 
-      def activate(value)
-        ActivationFunctions.send(activation_function, value)
-      end
-
       def input?
         layer == :input
       end
 
       def output?
         layer == :output
+      end
+
+      private
+
+      def activate(value)
+        ActivationFunctions.send(activation_function, value)
       end
     end
   end
