@@ -2,7 +2,6 @@
 
 require "morf/cppn/brain"
 require "morf/cppn/network_factory"
-require "morf/cppn/activation_functions"
 
 module Morf
   module Experiments

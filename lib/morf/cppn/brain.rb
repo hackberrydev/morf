@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "morf/cppn/network"
-
 module Morf
   module CPPN
     class Brain
