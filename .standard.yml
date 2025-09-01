@@ -17,4 +17,5 @@ ignore:
   - "spec/**/*":
     - "RSpec/VerifiedDoubles"
     - "RSpec/ExampleLength"
+    - "RSpec/IndexedLet"
   - "spec/spec_helper.rb"
