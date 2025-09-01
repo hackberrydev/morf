@@ -21,4 +21,11 @@ RSpec.describe Morf::CPPN::Connection do
   it "has a weight" do
     expect(connection.weight).to eq(0.5)
   end
+
+  describe "#calculate" do
+    it "returns the calculated value from the input node multiplied by the weight" do
+      allow(input_node).to receive(:calculate).and_return(0.8)
+      expect(connection.calculate).to eq(0.4)
+    end
+  end
 end

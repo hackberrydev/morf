@@ -10,6 +10,10 @@ module Morf
         @output_node = output_node
         @weight = weight
       end
+
+      def calculate
+        input_node.calculate * weight
+      end
     end
   end
 end

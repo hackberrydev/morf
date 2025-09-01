@@ -30,9 +30,7 @@ module Morf
       def calculate
         return @cached_value if @cached_value
 
-        sum = incoming_connections.sum do |conn|
-          conn.input_node.calculate * conn.weight
-        end
+        sum = incoming_connections.sum(&:calculate)
 
         @cached_value = activate(sum)
       end
