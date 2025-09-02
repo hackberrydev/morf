@@ -83,7 +83,7 @@ evolve the CPPNs.
   - Represents a node in the CPPN genome.
   - It should have an `id`, a `type` (`input`, `output`, `hidden`), and an `activation_function`.
 
-- [ ] **Implement `Morf::NEAT::ConnectionGene`:**
+- [x] **Implement `Morf::NEAT::ConnectionGene`:**
   - Represents a connection between two nodes in the CPPN genome.
   - It should have an `in_node_id`, an `out_node_id`, a `weight`, an `enabled` status, and an
     `innovation_number`.
