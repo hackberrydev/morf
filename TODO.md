@@ -73,11 +73,20 @@ In this phase, we will focus on building the "brain" of our cellular automata, t
 Once we have a working CPPN implementation, we will move on to implementing the NEAT algorithm to
 evolve the CPPNs.
 
-- [ ] **Create the `Morf::NEAT` module:**
+- [x] **Create the `Morf::NEAT` module:**
   - This module will contain all the classes related to the NEAT implementation.
 
-- [ ] **Implement `Morf::NEAT::Genome`:**
+- [x] **Implement `Morf::NEAT::Genome`:**
   - Represents the genetic encoding of a CPPN.
+
+- [x] **Implement `Morf::NEAT::NodeGene`:**
+  - Represents a node in the CPPN genome.
+  - It should have an `id`, a `type` (`input`, `output`, `hidden`), and an `activation_function`.
+
+- [ ] **Implement `Morf::NEAT::ConnectionGene`:**
+  - Represents a connection between two nodes in the CPPN genome.
+  - It should have an `in_node_id`, an `out_node_id`, a `weight`, an `enabled` status, and an
+    `innovation_number`.
 
 - [ ] **Implement `Morf::NEAT::Population`:**
   - Manages a population of genomes.
