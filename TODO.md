@@ -88,7 +88,7 @@ evolve the CPPNs.
   - It should have an `in_node_id`, an `out_node_id`, a `weight`, an `enabled` status, and an
     `innovation_number`.
 
-- [ ] **Implement `Morf::NEAT::Population`:**
+- [x] **Implement `Morf::NEAT::Population`:**
   - Manages a population of genomes.
 
 - [ ] **Implement `Morf::NEAT::Speciation`:**
