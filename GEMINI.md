@@ -51,6 +51,7 @@ A key concept to explore is the **French Flag Problem**.
 3.  Run tests with `bundle exec rspec`.
 4.  Commit early and often with clear messages, ensuring style checks
     and tests pass before push.
+5.  Always use double quotes for strings in Ruby code.
 
 ## File Formatting Requirement
 
