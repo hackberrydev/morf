@@ -91,7 +91,7 @@ evolve the CPPNs.
 - [x] **Implement `Morf::NEAT::Population`:**
   - Manages a population of genomes.
 
-- [ ] **Implement `Morf::NEAT::Speciation`:**
+- [x] **Implement `Morf::NEAT::Speciation`:**
   - Implements the logic for dividing the population into species based on topological similarity.
 
 - [ ] **Implement `Morf::NEAT::Reproduction`:**
