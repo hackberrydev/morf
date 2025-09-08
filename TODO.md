@@ -94,9 +94,9 @@ evolve the CPPNs.
 - [x] **Implement `Morf::NEAT::Speciation`:**
   - Implements the logic for dividing the population into species based on topological similarity.
 
-- [ ] **Implement `Morf::NEAT::Reproduction`:**
+- [x] **Implement `Morf::NEAT::Reproduction`:**
   - [x] Implemented the crossover operator.
-  - [ ] Implement mutation operators.
+  - [x] Implement mutation operators.
 
 - [ ] **Implement `Morf::NEAT::Fitness`:**
   - Create a module with different fitness functions to evaluate the generated patterns.

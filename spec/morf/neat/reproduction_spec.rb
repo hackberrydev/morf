@@ -7,96 +7,171 @@ require "morf/neat/node_gene"
 require "morf/neat/connection_gene"
 
 RSpec.describe Morf::NEAT::Reproduction do
-  subject(:reproduction) { described_class.new(random: random) }
+  let(:reproduction) do
+    described_class.new(
+      random: random,
+      next_node_id: 3,
+      next_innovation_number: 2,
+      weight_range: -4.0..4.0,
+      new_weight_probability: 0.1
+    )
+  end
 
   let(:random) { instance_double(Random, rand: 0) }
 
   let(:node_genes) do
     [
       Morf::NEAT::NodeGene.new(id: 1, type: :input, activation_function: :identity),
-      Morf::NEAT::NodeGene.new(id: 2, type: :output, activation_function: :sigmoid)
+      Morf::NEAT::NodeGene.new(id: 2, type: :output, activation_function: :sigmoid),
+      Morf::NEAT::NodeGene.new(id: 3, type: :hidden, activation_function: :sigmoid)
     ]
   end
 
-  let(:connection_genes1) do
+  let(:connection_genes) do
     [
-      Morf::NEAT::ConnectionGene.new(in_node_id: 1, out_node_id: 2, weight: 0.5, innovation_number: 1, enabled: true)
+      Morf::NEAT::ConnectionGene.new(in_node_id: 1, out_node_id: 2, weight: 3.95, innovation_number: 1, enabled: true)
     ]
   end
 
-  let(:connection_genes2) do
-    [
-      Morf::NEAT::ConnectionGene.new(in_node_id: 1, out_node_id: 2, weight: 1.0, innovation_number: 1, enabled: true)
-    ]
-  end
+  let(:genome) { Morf::NEAT::Genome.new(node_genes: node_genes, connection_genes: connection_genes) }
 
-  let(:parent1) { Morf::NEAT::Genome.new(node_genes: node_genes, connection_genes: connection_genes1) }
-  let(:parent2) { Morf::NEAT::Genome.new(node_genes: node_genes, connection_genes: connection_genes2) }
+  describe "#mutate_add_node" do
+    before do
+      connection_genes.first.weight = 0.5
+      reproduction.mutate_add_node(genome)
+    end
 
-  describe "#crossover" do
-    context "with identical parents" do
-      let(:connection_genes2) { connection_genes1 }
-
-      it "creates a child identical to the parents" do
-        child = reproduction.crossover(parent1, parent2, 1.0, 1.0)
-
-        aggregate_failures do
-          expect(child.node_genes).to match_array(parent1.node_genes)
-          expect(child.connection_genes).to match_array(parent1.connection_genes)
-        end
+    it "adds a new hidden node" do
+      aggregate_failures do
+        expect(genome.node_genes.count).to eq(4)
+        expect(genome.node_genes.last.id).to eq(3)
+        expect(genome.node_genes.last.type).to eq(:hidden)
       end
     end
 
-    context "with parents with different connection weights" do
-      it "creates a child with a connection from the first parent" do
-        allow(random).to receive(:rand).and_return(0)
-        child = reproduction.crossover(parent1, parent2, 1.0, 1.0)
+    it "adds two new connections and disables the old one" do
+      aggregate_failures do
+        expect(genome.connection_genes.count).to eq(3)
+        expect(genome.connection_genes[0].enabled).to be(false)
 
-        expect(child.connection_genes.first).to eq(connection_genes1.first)
+        new_conn1 = genome.connection_genes[1]
+        expect(new_conn1.in_node_id).to eq(1)
+        expect(new_conn1.out_node_id).to eq(3)
+        expect(new_conn1.weight).to eq(1.0)
+        expect(new_conn1.innovation_number).to eq(2)
+
+        new_conn2 = genome.connection_genes[2]
+        expect(new_conn2.in_node_id).to eq(3)
+        expect(new_conn2.out_node_id).to eq(2)
+        expect(new_conn2.weight).to eq(0.5)
+        expect(new_conn2.innovation_number).to eq(3)
       end
+    end
+  end
 
-      it "creates a child with a connection from the second parent" do
-        allow(random).to receive(:rand).and_return(1)
-        child = reproduction.crossover(parent1, parent2, 1.0, 1.0)
+  describe "#mutate_add_connection" do
+    it "adds a new connection" do
+      allow(random).to receive(:rand).with(-1.0..1.0).and_return(0.75)
+      # Force sample to return two unconnected nodes
+      allow(genome.node_genes).to receive(:sample).and_return([node_genes[0], node_genes[2]])
 
-        expect(child.connection_genes.first).to eq(connection_genes2.first)
+      reproduction.mutate_add_connection(genome)
+
+      aggregate_failures do
+        expect(genome.connection_genes.count).to eq(2)
+        new_conn = genome.connection_genes.last
+        expect(new_conn.in_node_id).to eq(1)
+        expect(new_conn.out_node_id).to eq(3)
+        expect(new_conn.weight).to eq(0.75)
+        expect(new_conn.innovation_number).to eq(2)
       end
     end
 
-    context "with disjoint and excess genes from the more fit parent" do
-      let(:connection_genes1) do
-        [
-          Morf::NEAT::ConnectionGene.new(in_node_id: 1, out_node_id: 2, weight: 0.5, innovation_number: 1, enabled: true),
-          Morf::NEAT::ConnectionGene.new(in_node_id: 2, out_node_id: 3, weight: 0.5, innovation_number: 2, enabled: true) # disjoint
-        ]
+    context "when a connection already exists" do
+      it "does not add a new connection" do
+        # Force sample to return the two nodes that are already connected
+        allow(genome.node_genes).to receive(:sample).and_return([node_genes[0], node_genes[1]])
+
+        reproduction.mutate_add_connection(genome)
+        expect(genome.connection_genes.count).to eq(1)
       end
 
-      let(:connection_genes2) do
-        [
-          Morf::NEAT::ConnectionGene.new(in_node_id: 1, out_node_id: 2, weight: 1.0, innovation_number: 1, enabled: true),
-          Morf::NEAT::ConnectionGene.new(in_node_id: 2, out_node_id: 4, weight: 0.5, innovation_number: 3, enabled: true), # disjoint
-          Morf::NEAT::ConnectionGene.new(in_node_id: 3, out_node_id: 4, weight: 0.5, innovation_number: 4, enabled: true) # excess
-        ]
+      it "retries if it fails to find an unconnected pair" do
+        # First, return a connected pair, then an unconnected one.
+        allow(genome.node_genes).to receive(:sample).and_return(
+          [node_genes[0], node_genes[1]],
+          [node_genes[0], node_genes[2]]
+        )
+        allow(random).to receive(:rand).with(-1.0..1.0).and_return(0.75)
+
+        reproduction.mutate_add_connection(genome)
+        expect(genome.connection_genes.count).to eq(2)
+      end
+    end
+  end
+
+  describe "#mutate_weights" do
+    context "when perturbing a weight" do
+      it "updates the weight of a connection" do
+        connection_genes.first.weight = 0.5
+        allow(random).to receive(:rand).and_return(0.5)
+        allow(random).to receive(:rand).with(-0.1..0.1).and_return(0.05)
+
+        reproduction.mutate_weights(genome)
+        expect(genome.connection_genes.first.weight).to be_within(0.001).of(0.55)
       end
 
-      it "inherits disjoint genes from parent1" do
-        child = reproduction.crossover(parent1, parent2, 2.0, 1.0)
-        expect(child.connection_genes.map(&:innovation_number)).to include(2)
-      end
+      it "clamps the weight to the max value" do
+        allow(random).to receive(:rand).and_return(0.5)
+        allow(random).to receive(:rand).with(-0.1..0.1).and_return(0.1)
 
-      it "does not inherit genes from parent2" do
-        child = reproduction.crossover(parent1, parent2, 2.0, 1.0)
-        expect(child.connection_genes.map(&:innovation_number)).not_to include(3, 4)
+        reproduction.mutate_weights(genome)
+        expect(genome.connection_genes.first.weight).to eq(4.0)
       end
+    end
 
-      it "does not inherit genes from parent1" do
-        child = reproduction.crossover(parent1, parent2, 1.0, 2.0)
-        expect(child.connection_genes.map(&:innovation_number)).not_to include(2)
+    context "when assigning a new weight" do
+      it "updates the weight of a connection" do
+        allow(random).to receive(:rand).and_return(0.05)
+        allow(random).to receive(:rand).with(-1.0..1.0).and_return(0.8)
+
+        reproduction.mutate_weights(genome)
+        expect(genome.connection_genes.first.weight).to be_within(0.001).of(0.8)
       end
+    end
+  end
 
-      it "inherits disjoint and excess genes from parent2" do
-        child = reproduction.crossover(parent1, parent2, 1.0, 2.0)
-        expect(child.connection_genes.map(&:innovation_number)).to include(3, 4)
+  describe "#mutate" do
+    context "with add_node mutation" do
+      it "calls mutate_add_node" do
+        allow(random).to receive(:rand).and_return(0.02)
+        allow(reproduction).to receive(:mutate_add_node)
+
+        reproduction.mutate(genome)
+
+        expect(reproduction).to have_received(:mutate_add_node).with(genome)
+      end
+    end
+
+    context "with add_connection mutation" do
+      it "calls mutate_add_connection" do
+        allow(random).to receive(:rand).and_return(0.04)
+        allow(reproduction).to receive(:mutate_add_connection)
+
+        reproduction.mutate(genome)
+
+        expect(reproduction).to have_received(:mutate_add_connection).with(genome)
+      end
+    end
+
+    context "with mutate_weights mutation" do
+      it "calls mutate_weights" do
+        allow(random).to receive(:rand).and_return(0.5)
+        allow(reproduction).to receive(:mutate_weights)
+
+        reproduction.mutate(genome)
+
+        expect(reproduction).to have_received(:mutate_weights).with(genome)
       end
     end
   end

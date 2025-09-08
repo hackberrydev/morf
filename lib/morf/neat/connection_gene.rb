@@ -3,7 +3,8 @@
 module Morf
   module NEAT
     class ConnectionGene
-      attr_reader :in_node_id, :out_node_id, :weight, :enabled, :innovation_number
+      attr_reader :in_node_id, :out_node_id, :enabled, :innovation_number
+      attr_accessor :weight
 
       def initialize(in_node_id:, out_node_id:, weight:, enabled:, innovation_number:)
         @in_node_id = in_node_id
@@ -11,6 +12,10 @@ module Morf
         @weight = weight
         @enabled = enabled
         @innovation_number = innovation_number
+      end
+
+      def disable
+        @enabled = false
       end
     end
   end

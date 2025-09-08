@@ -17,6 +17,13 @@ module Morf
       def add_connection_gene(connection_gene)
         @connection_genes << connection_gene
       end
+
+      def connection_exists?(in_node_id, out_node_id)
+        @connection_genes.any? do |gene|
+          (gene.in_node_id == in_node_id && gene.out_node_id == out_node_id) ||
+            (gene.in_node_id == out_node_id && gene.out_node_id == in_node_id)
+        end
+      end
     end
   end
 end
