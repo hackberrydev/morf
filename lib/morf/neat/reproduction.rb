@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 require "morf/neat/genome"
+require "morf/neat/mutation/mutator"
 
 module Morf
   module NEAT
     class Reproduction
-      attr_reader :next_node_id, :next_innovation_number
-
       # @param random [Random] The random number generator.
       # @param next_node_id [Integer] The starting ID for new nodes.
       # @param next_innovation_number [Integer] The starting innovation number for new connections.
@@ -28,64 +27,29 @@ module Morf
         add_connection_max_attempts: 10
       )
         @random = random
-        @next_node_id = next_node_id
-        @next_innovation_number = next_innovation_number
-        @weight_range = weight_range
-        @mutate_add_node_prob = mutate_add_node_prob
-        @mutate_add_connection_prob = mutate_add_connection_prob
-        @mutate_weights_prob = mutate_weights_prob
-        @new_weight_probability = new_weight_probability
-        @add_connection_max_attempts = add_connection_max_attempts
+        @mutator = Morf::NEAT::Mutation::Mutator.new(
+          random: random,
+          next_node_id: next_node_id,
+          next_innovation_number: next_innovation_number,
+          mutate_add_node_prob: mutate_add_node_prob,
+          mutate_add_connection_prob: mutate_add_connection_prob,
+          mutate_weights_prob: mutate_weights_prob,
+          new_weight_prob: new_weight_probability,
+          weight_range: weight_range,
+          add_connection_max_attempts: add_connection_max_attempts
+        )
       end
 
       def mutate(genome)
-        if @random.rand < @mutate_add_node_prob
-          mutate_add_node(genome)
-        end
-
-        if @random.rand < @mutate_add_connection_prob
-          mutate_add_connection(genome)
-        end
-
-        if @random.rand < @mutate_weights_prob
-          mutate_weights(genome)
-        end
+        @mutator.mutate(genome)
       end
 
-      def mutate_add_node(genome)
-        connection_to_split = genome.connection_genes.sample(random: @random)
-        return if connection_to_split.nil?
-
-        connection_to_split.disable
-
-        new_node = Morf::NEAT::NodeGene.new(id: @next_node_id, type: :hidden, activation_function: :sigmoid)
-        @next_node_id += 1
-        genome.add_node_gene(new_node)
-
-        create_new_connection(genome, connection_to_split.in_node_id, new_node.id, 1.0)
-        create_new_connection(genome, new_node.id, connection_to_split.out_node_id, connection_to_split.weight)
+      def next_node_id
+        @mutator.next_node_id
       end
 
-      def mutate_add_connection(genome)
-        @add_connection_max_attempts.times do
-          node1, node2 = genome.node_genes.sample(2, random: @random)
-          next if node1.nil? || node2.nil?
-          next if genome.connection_exists?(node1.id, node2.id)
-
-          create_new_connection(genome, node1.id, node2.id, @random.rand(-1.0..1.0))
-          return
-        end
-      end
-
-      def mutate_weights(genome)
-        genome.connection_genes.each do |connection|
-          if @random.rand < @new_weight_probability
-            connection.weight = @random.rand(-1.0..1.0)
-          else
-            connection.weight += @random.rand(-0.1..0.1)
-          end
-          connection.weight = connection.weight.clamp(@weight_range)
-        end
+      def next_innovation_number
+        @mutator.next_innovation_number
       end
 
       def crossover(parent1, parent2, fitness1, fitness2)
@@ -127,20 +91,6 @@ module Morf
           node_genes: parent1.node_genes,
           connection_genes: child_connection_genes
         )
-      end
-
-      private
-
-      def create_new_connection(genome, in_node_id, out_node_id, weight)
-        new_connection = Morf::NEAT::ConnectionGene.new(
-          in_node_id: in_node_id,
-          out_node_id: out_node_id,
-          weight: weight,
-          enabled: true,
-          innovation_number: @next_innovation_number
-        )
-        @next_innovation_number += 1
-        genome.add_connection_gene(new_connection)
       end
     end
   end
