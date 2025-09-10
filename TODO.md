@@ -98,9 +98,36 @@ evolve the CPPNs.
   - [x] Implemented the crossover operator.
   - [x] Implement mutation operators.
 
-- [ ] **Implement `Morf::NEAT::Fitness`:**
-  - Create a module with different fitness functions to evaluate the generated patterns.
-  - Start with a simple fitness function that compares the generated pattern to a target pattern.
+- [ ] **Refactor for Discrete States and Implement Fitness Function**
+  - The goal is to support multiple discrete states for cells (e.g., dead, blue, white, red)
+    determined by a "winner-take-all" mechanism from a multi-output CPPN. Cell states will be
+    represented by integers for generality.
+
+  - [ ] **Phase 1: Refactor for Integer-Based Discrete States**
+    - [ ] **Update `Morf::Cell`:**
+      - The cell's `@state` will be an **integer**.
+      - The `update` method will set the cell's state to the **index** of the highest value in the
+        array returned by the brain.
+    - [ ] **Update `Morf::GridView`:**
+      - The `initialize` method will accept a `color_map` (e.g., an array of colors).
+      - It will pass the `color_map` down to the `CellView` instances it creates.
+    - [ ] **Update `CellView` Classes:**
+      - The `initialize` method will accept a `color_map`.
+      - The rendering logic will use the cell's integer state as an index to look up the correct
+        color in the `color_map`.
+    - [ ] **Update Experiments:**
+      - The experiment setup (e.g., in `Morf::Experiments::CPPN::Experiment`) will be updated to
+        pass the `color_map` to the `GridView`.
+
+  - [ ] **Phase 2: Implement `Morf::NEAT::Fitness`**
+    - [ ] **Create `Morf::NEAT::Fitness` module and `PatternTarget` class:**
+      - Create `lib/morf/neat/fitness.rb`.
+      - Create `spec/morf/neat/fitness_spec.rb`.
+    - [ ] **Implement `PatternTarget` Class:**
+      - It will be initialized with a `target_pattern` (a 2D array of **integers**).
+      - The `evaluate(grid)` method will compare the integer state of each cell with the integer in
+        the target pattern.
+      - Fitness will be calculated as `correct_cells / total_cells`.
 
 - [ ] **Create a NEAT Experiment:**
   - Create a new experiment in `lib/morf/experiments/neat/`.
