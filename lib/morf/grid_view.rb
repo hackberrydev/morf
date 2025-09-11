@@ -2,7 +2,7 @@ require "ruby2d"
 
 module Morf
   class GridView
-    def initialize(clock:, grid:, cell_view_class:, cell_size: 5, time_limit: 10)
+    def initialize(clock:, grid:, cell_view_class:, cell_size: 5, time_limit: nil, color_map: {})
       super()
 
       @clock = clock
@@ -10,6 +10,7 @@ module Morf
       @cell_view_class = cell_view_class
       @cell_size = cell_size
       @time_limit = time_limit
+      @color_map = color_map
 
       @start_at = Time.now
     end
@@ -53,7 +54,8 @@ module Morf
             cell: @grid.cell(row: y, column: x),
             cell_size: @cell_size,
             x: x,
-            y: y
+            y: y,
+            color_map: @color_map
           )
         end
       end

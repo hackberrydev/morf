@@ -22,12 +22,20 @@ module Morf
             columns: 6
           )
 
+          color_map = {
+            0 => "white",
+            1 => "red",
+            2 => "green",
+            3 => "blue"
+          }
+
           grid_view = Morf::GridView.new(
             clock: clock,
             grid: grid,
             cell_view_class: Morf::Experiments::CPPN::CellView,
             cell_size: 20,
-            time_limit: 30
+            time_limit: 30,
+            color_map: color_map
           )
 
           puts "CPPN Experiment start."

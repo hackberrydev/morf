@@ -103,19 +103,20 @@ evolve the CPPNs.
     determined by a "winner-take-all" mechanism from a multi-output CPPN. Cell states will be
     represented by integers for generality.
 
-  - [ ] **Phase 1: Refactor for Integer-Based Discrete States**
-    - [ ] **Update `Morf::Cell`:**
-      - The cell's `@state` will be an **integer**.
-      - The `update` method will set the cell's state to the **index** of the highest value in the
-        array returned by the brain.
-    - [ ] **Update `Morf::GridView`:**
+  - [x] **Phase 1: Refactor for Integer-Based Discrete States**
+    - [x] **Update `Morf::Cell`:**
+      - No changes are needed. The `Morf::Cell` is generic and its state is determined by the `brain`.
+      - The "winner-take-all" logic, which converts a brain's multiple outputs into a single
+        integer state, is correctly implemented in `Morf::CPPN::Brain`.
+      - This allows for different brain implementations with different state types.
+    - [x] **Update `Morf::GridView`:**
       - The `initialize` method will accept a `color_map` (e.g., an array of colors).
       - It will pass the `color_map` down to the `CellView` instances it creates.
-    - [ ] **Update `CellView` Classes:**
+    - [x] **Update `CellView` Classes:**
       - The `initialize` method will accept a `color_map`.
       - The rendering logic will use the cell's integer state as an index to look up the correct
         color in the `color_map`.
-    - [ ] **Update Experiments:**
+    - [x] **Update Experiments:**
       - The experiment setup (e.g., in `Morf::Experiments::CPPN::Experiment`) will be updated to
         pass the `color_map` to the `GridView`.
 

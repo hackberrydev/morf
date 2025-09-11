@@ -6,15 +6,16 @@ module Morf
   module Experiments
     module GameOfLife
       class CellView
-        def initialize(cell:, cell_size:, x:, y:)
+        def initialize(cell:, cell_size:, x:, y:, color_map:)
           @cell = cell
           @cell_size = cell_size
           @x = x
           @y = y
+          @color_map = color_map
         end
 
         def render
-          rectangle.color = (@cell.state == 1) ? "black" : "white"
+          rectangle.color = @color_map[@cell.state]
         end
 
         private

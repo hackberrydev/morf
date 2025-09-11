@@ -22,11 +22,14 @@ module Morf
             columns: 100
           )
 
+          color_map = {0 => "white", 1 => "black"}
+
           grid_view = Morf::GridView.new(
             clock: clock,
             grid: grid,
             cell_view_class: Morf::Experiments::GameOfLife::CellView,
-            time_limit: 30
+            time_limit: 30,
+            color_map: color_map
           )
 
           puts "Experiment start."

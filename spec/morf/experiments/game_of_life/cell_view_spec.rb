@@ -1,7 +1,7 @@
 require "spec_helper"
-require "morf/experiments/cppn/cell_view"
+require "morf/experiments/game_of_life/cell_view"
 
-RSpec.describe Morf::Experiments::CPPN::CellView do
+RSpec.describe Morf::Experiments::GameOfLife::CellView do
   subject(:cell_view) do
     described_class.new(
       cell: cell,
@@ -13,7 +13,7 @@ RSpec.describe Morf::Experiments::CPPN::CellView do
   end
 
   let(:cell) { double("Cell", state: 1) }
-  let(:color_map) { {0 => "black", 1 => "white"} }
+  let(:color_map) { {0 => "white", 1 => "black"} }
   let(:rectangle) { double("Rectangle") }
 
   before do
@@ -24,7 +24,7 @@ RSpec.describe Morf::Experiments::CPPN::CellView do
   describe "#render" do
     it "sets the rectangle color based on the cell state and color map" do
       cell_view.render
-      expect(rectangle).to have_received(:color=).with("white")
+      expect(rectangle).to have_received(:color=).with("black")
     end
   end
 end
