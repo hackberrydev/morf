@@ -7,6 +7,10 @@ module Morf
         def state_for(row:, column:)
           0
         end
+
+        def default_state
+          0
+        end
       end
     end
   end
