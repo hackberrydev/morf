@@ -120,11 +120,11 @@ evolve the CPPNs.
       - The experiment setup (e.g., in `Morf::Experiments::CPPN::Experiment`) will be updated to
         pass the `color_map` to the `GridView`.
 
-  - [ ] **Phase 2: Implement `Morf::NEAT::Fitness`**
-    - [ ] **Create `Morf::NEAT::Fitness` module and `PatternTarget` class:**
+  - [x] **Phase 2: Implement `Morf::NEAT::Fitness`**
+    - [x] **Create `Morf::NEAT::Fitness` module and `PatternTarget` class:**
       - Create `lib/morf/neat/fitness.rb`.
       - Create `spec/morf/neat/fitness_spec.rb`.
-    - [ ] **Implement `PatternTarget` Class:**
+    - [x] **Implement `PatternTarget` Class:**
       - It will be initialized with a `target_pattern` (a 2D array of **integers**).
       - The `evaluate(grid)` method will compare the integer state of each cell with the integer in
         the target pattern.
