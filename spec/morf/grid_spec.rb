@@ -34,6 +34,6 @@ RSpec.describe Morf::Grid do
   end
 
   it "returns the total number of cells" do
-    expect(grid.total_cells).to eq 32
+    expect(grid.total_cells).to eq(32)
   end
 end

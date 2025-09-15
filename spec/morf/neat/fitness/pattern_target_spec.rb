@@ -10,7 +10,7 @@ RSpec.describe Morf::NEAT::Fitness::PatternTarget do
   let(:target_pattern) { [[1, 1], [1, 1]] }
 
   it "is initialized with a target_pattern" do
-    expect(pattern_target.target_pattern).to eq target_pattern
+    expect(pattern_target.target_pattern).to eq(target_pattern)
   end
 
   describe "#evaluate" do

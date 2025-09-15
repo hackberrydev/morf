@@ -53,6 +53,7 @@ A key concept to explore is the **French Flag Problem**.
     and tests pass before push.
 5.  Always use double quotes for strings in Ruby code.
 6.  Add an empty line at the end of each file.
+7.  When using `expect(...).to eq`, always use parentheses: `expect(...).to eq(value)`.
 
 ## File Formatting Requirement
 
