@@ -25,6 +25,10 @@ module Morf
       @grid[row][column]
     end
 
+    def total_cells
+      @rows * @columns
+    end
+
     private
 
     def out_of_bounds?(row:, column:)

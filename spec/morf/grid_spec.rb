@@ -32,4 +32,8 @@ RSpec.describe Morf::Grid do
   it "initializes the null cell with the default state from the seed" do
     expect(grid.cell(row: -1, column: 0).state).to eq(-1)
   end
+
+  it "returns the total number of cells" do
+    expect(grid.total_cells).to eq 32
+  end
 end

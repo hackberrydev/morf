@@ -12,7 +12,7 @@ module Morf
 
         def evaluate(grid)
           correct_cells = 0
-          total_cells = grid.rows * grid.columns
+          total_cells = grid.total_cells
 
           (0...grid.rows).each do |row|
             (0...grid.columns).each do |column|

@@ -15,7 +15,7 @@ RSpec.describe Morf::NEAT::Fitness::PatternTarget do
 
   describe "#evaluate" do
     let(:grid) do
-      instance_double(Morf::Grid, rows: 2, columns: 2).tap do |grid_double|
+      instance_double(Morf::Grid, rows: 2, columns: 2, total_cells: 4).tap do |grid_double|
         allow(grid_double).to receive(:cell)
           .with(row: 0, column: 0)
           .and_return(instance_double(Morf::Cell, state: 1))
@@ -40,7 +40,7 @@ RSpec.describe Morf::NEAT::Fitness::PatternTarget do
 
     context "when there is a partial match" do
       let(:grid) do
-        instance_double(Morf::Grid, rows: 2, columns: 2).tap do |grid_double|
+        instance_double(Morf::Grid, rows: 2, columns: 2, total_cells: 4).tap do |grid_double|
           allow(grid_double).to receive(:cell)
             .with(row: 0, column: 0)
             .and_return(instance_double(Morf::Cell, state: 1))
