@@ -131,9 +131,48 @@ evolve the CPPNs.
       - Fitness will be calculated as `correct_cells / total_cells`.
 
 - [ ] **Create a NEAT Experiment:**
-  - Create a new experiment in `lib/morf/experiments/neat/`.
-  - This experiment will use the NEAT algorithm to evolve a population of CPPNs to generate a
-    target pattern.
+  - This experiment will use the NEAT algorithm to evolve a population of CPPNs to generate the
+    French Flag pattern using a traditional cellular automaton model.
+
+  - [ ] **Phase 1: Define Experiment Configuration & Sensor**
+    - [ ] Create `lib/morf/experiments/neat/constants.rb` to store experiment parameters (population
+      size, generations, grid size, etc.).
+    - [ ] In `constants.rb`, define `FRENCH_FLAG_PATTERN`, `SEED_PATTERN`, and `COLOR_MAP`.
+    - [ ] Create `lib/morf/experiments/neat/sensor.rb` to provide the state of the 8 Moore neighbors
+      as input to the CPPN.
+    - [ ] Create `lib/morf/experiments/neat/brain.rb` that wires the `sensor` to the CPPN.
+
+  - [ ] **Phase 2: Implement Fitness Evaluation**
+    - [ ] Create `lib/morf/experiments/neat/fitness_evaluator.rb`. This class will manage the
+      fitness evaluation for a single genome.
+    - [ ] It will be initialized with a genome and the target pattern.
+    - [ ] It will create a `Morf::CPPN::Brain` from the genome.
+    - [ ] It will set up a grid with the `SEED_PATTERN`.
+    - [ ] It will run the 30-iteration development loop. In each iteration, it will use
+      `Morf::NEAT::Fitness::PatternTarget` to calculate the raw fitness.
+    - [ ] It will find the maximum raw fitness (`x`) across all iterations.
+    - [ ] It will calculate and return the final scaled fitness using the formula
+      `f(x) = x * (exp(5*x)) / exp(5)`.
+
+  - [ ] **Phase 3: Implement the Main Experiment Runner**
+    - [ ] Create `lib/morf/experiments/neat/runner.rb` to manage a single, complete experiment run.
+    - [ ] The `run` method will contain the main loop for 100 generations.
+    - [ ] Inside the loop, it will:
+      - Use `FitnessEvaluator` to calculate the fitness for every genome in the population.
+      - Log the generation number, best/average fitness, and species count.
+      - Perform selection, reproduction, and mutation to create the next generation.
+    - [ ] After the loop, it will identify the best genome of the entire run and save it to a
+      timestamped file using `Marshal.dump`.
+
+  - [ ] **Phase 4: Create Executables**
+    - [ ] Create a script `bin/run_neat_experiment` that starts the experiment by calling
+      `Morf::Experiments::NEAT::Runner.new.run`.
+    - [ ] Create a script `bin/visualize_genome` that takes a path to a dumped genome file, loads
+      it, and runs its development on a grid, rendering the result with `Morf::GridView`.
+
+  - [ ] **Phase 5: Testing**
+    - [ ] Add basic RSpec tests for the new classes (`sensor`, `fitness_evaluator`, `runner`) to
+      ensure they are wired correctly.
 
 ## Notes
 
