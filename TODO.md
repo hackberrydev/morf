@@ -98,7 +98,7 @@ evolve the CPPNs.
   - [x] Implemented the crossover operator.
   - [x] Implement mutation operators.
 
-- [ ] **Refactor for Discrete States and Implement Fitness Function**
+- [x] **Refactor for Discrete States and Implement Fitness Function**
   - The goal is to support multiple discrete states for cells (e.g., dead, blue, white, red)
     determined by a "winner-take-all" mechanism from a multi-output CPPN. Cell states will be
     represented by integers for generality.
@@ -135,11 +135,11 @@ evolve the CPPNs.
     French Flag pattern using a traditional cellular automaton model.
 
   - [ ] **Phase 1: Define Experiment Configuration & Sensor**
-    - [ ] Create `lib/morf/experiments/neat/constants.rb` to store experiment parameters (population
+    - [x] Create `lib/morf/experiments/neat/constants.rb` to store experiment parameters (population
       size, generations, grid size, etc.).
-    - [ ] In `constants.rb`, define `FRENCH_FLAG_PATTERN`, `SEED_PATTERN`, and `COLOR_MAP`.
-    - [ ] Create `lib/morf/experiments/neat/sensor.rb` to provide the state of the 8 Moore neighbors
-      as input to the CPPN.
+    - [x] In `constants.rb`, define `FRENCH_FLAG_PATTERN`, `SEED_PATTERN`, and `COLOR_MAP`.
+    - [x] Use existing `Morf::CPPN::Sensor` for Moore neighborhood.
+    - [x] Create `Morf::NEAT::NetworkBuilder` to construct a CPPN from a genome.
     - [ ] Create `lib/morf/experiments/neat/brain.rb` that wires the `sensor` to the CPPN.
 
   - [ ] **Phase 2: Implement Fitness Evaluation**

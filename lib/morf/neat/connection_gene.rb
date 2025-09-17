@@ -17,6 +17,10 @@ module Morf
       def disable
         @enabled = false
       end
+
+      def enabled?
+        @enabled
+      end
     end
   end
 end
