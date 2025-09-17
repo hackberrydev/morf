@@ -130,6 +130,25 @@ evolve the CPPNs.
         the target pattern.
       - Fitness will be calculated as `correct_cells / total_cells`.
 
+- [ ] **Refactor `Morf::Grid` to use a Brain Factory**
+  - The goal is to allow a single brain instance, configured with a specific genome's network, to be
+    shared across all cells in a grid during a fitness evaluation. This is a cleaner approach than
+    dynamically creating brain classes.
+  - [ ] **Phase 1: Refactor `Morf::Grid`**
+    - [ ] Modify the `initialize` method to accept a `brain_factory` object instead of a
+      `brain_class`.
+    - [ ] Update the `initialize_grid` method to use `brain_factory.create_brain` to create brain
+      instances for cells.
+  - [ ] **Phase 2: Create `Morf::DefaultBrainFactory`**
+    - [ ] Create the `lib/morf/default_brain_factory.rb` file.
+    - [ ] The factory will take a `brain_class` in its constructor and its `create_brain` method
+      will call `.new` on that class to maintain the old behavior.
+    - [ ] Create a corresponding spec file.
+  - [ ] **Phase 3: Update Existing Code**
+    - [ ] Find all usages of `Morf::Grid.new` in the codebase.
+    - [ ] Update them to wrap the existing `brain_class` in the new `Morf::DefaultBrainFactory`.
+      This includes `spec/morf/grid_spec.rb` and any existing experiment files.
+
 - [ ] **Create a NEAT Experiment:**
   - This experiment will use the NEAT algorithm to evolve a population of CPPNs to generate the
     French Flag pattern using a traditional cellular automaton model.
@@ -140,14 +159,14 @@ evolve the CPPNs.
     - [x] In `constants.rb`, define `FRENCH_FLAG_PATTERN`, `SEED_PATTERN`, and `COLOR_MAP`.
     - [x] Use existing `Morf::CPPN::Sensor` for Moore neighborhood.
     - [x] Create `Morf::NEAT::NetworkBuilder` to construct a CPPN from a genome.
-    - [ ] Create `lib/morf/experiments/neat/brain.rb` that wires the `sensor` to the CPPN.
 
   - [ ] **Phase 2: Implement Fitness Evaluation**
     - [ ] Create `lib/morf/experiments/neat/fitness_evaluator.rb`. This class will manage the
       fitness evaluation for a single genome.
     - [ ] It will be initialized with a genome and the target pattern.
-    - [ ] It will create a `Morf::CPPN::Brain` from the genome.
-    - [ ] It will set up a grid with the `SEED_PATTERN`.
+    - [ ] It will create a `Morf::CPPN::Brain` from the genome using the `NetworkBuilder`.
+    - [ ] It will create a specialized brain factory that returns the same brain instance.
+    - [ ] It will set up a grid with the `SEED_PATTERN` using the specialized brain factory.
     - [ ] It will run the 30-iteration development loop. In each iteration, it will use
       `Morf::NEAT::Fitness::PatternTarget` to calculate the raw fitness.
     - [ ] It will find the maximum raw fitness (`x`) across all iterations.
@@ -171,7 +190,7 @@ evolve the CPPNs.
       it, and runs its development on a grid, rendering the result with `Morf::GridView`.
 
   - [ ] **Phase 5: Testing**
-    - [ ] Add basic RSpec tests for the new classes (`sensor`, `fitness_evaluator`, `runner`) to
+    - [ ] Add basic RSpec tests for the new classes (`fitness_evaluator`, `runner`) to
       ensure they are wired correctly.
 
 ## Notes
