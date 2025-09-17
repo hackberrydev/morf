@@ -36,7 +36,7 @@ module Morf
         ].freeze
 
         # CPPN Configuration
-        CPPN_INPUTS = 8 # Moore neighborhood
+        CPPN_INPUTS = 9 # Moore neighborhood + self
         CPPN_OUTPUTS = 4 # dead, blue, white, red
       end
     end
