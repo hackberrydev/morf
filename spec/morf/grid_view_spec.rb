@@ -2,6 +2,7 @@ require "spec_helper"
 require "morf/grid_view"
 require "morf/grid"
 require "morf/clock"
+require "morf/default_brain_factory"
 require "ruby2d"
 
 RSpec.describe Morf::GridView do
@@ -19,7 +20,7 @@ RSpec.describe Morf::GridView do
   let(:clock) { Morf::Clock.new }
   let(:grid) do
     Morf::Grid.new(
-      brain_class: brain_class,
+      brain_factory: Morf::DefaultBrainFactory.new(brain_class),
       sensor_class: sensor_class,
       clock: clock,
       rows: 1,

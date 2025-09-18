@@ -1,6 +1,7 @@
 require "morf/grid"
 require "morf/clock"
 require "morf/grid_view"
+require "morf/default_brain_factory"
 require "morf/experiments/game_of_life/brain"
 require "morf/experiments/game_of_life/sensor"
 require "morf/experiments/game_of_life/cell_view"
@@ -15,7 +16,7 @@ module Morf
 
           grid = Morf::Grid.new(
             clock: clock,
-            brain_class: Morf::Experiments::GameOfLife::Brain,
+            brain_factory: Morf::DefaultBrainFactory.new(Morf::Experiments::GameOfLife::Brain),
             sensor_class: Morf::Experiments::GameOfLife::Sensor,
             seed: Morf::Experiments::GameOfLife::Seed.new,
             rows: 100,

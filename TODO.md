@@ -130,23 +130,23 @@ evolve the CPPNs.
         the target pattern.
       - Fitness will be calculated as `correct_cells / total_cells`.
 
-- [ ] **Refactor `Morf::Grid` to use a Brain Factory**
+- [x] **Refactor `Morf::Grid` to use a Brain Factory**
   - The goal is to allow a single brain instance, configured with a specific genome's network, to be
     shared across all cells in a grid during a fitness evaluation. This is a cleaner approach than
     dynamically creating brain classes.
-  - [ ] **Phase 1: Refactor `Morf::Grid`**
-    - [ ] Modify the `initialize` method to accept a `brain_factory` object instead of a
+  - [x] **Phase 1: Refactor `Morf::Grid`**
+    - [x] Modify the `initialize` method to accept a `brain_factory` object instead of a
       `brain_class`.
-    - [ ] Update the `initialize_grid` method to use `brain_factory.create_brain` to create brain
+    - [x] Update the `initialize_grid` method to use `brain_factory.create_brain` to create brain
       instances for cells.
-  - [ ] **Phase 2: Create `Morf::DefaultBrainFactory`**
-    - [ ] Create the `lib/morf/default_brain_factory.rb` file.
-    - [ ] The factory will take a `brain_class` in its constructor and its `create_brain` method
+  - [x] **Phase 2: Create `Morf::DefaultBrainFactory`**
+    - [x] Create the `lib/morf/default_brain_factory.rb` file.
+    - [x] The factory will take a `brain_class` in its constructor and its `create_brain` method
       will call `.new` on that class to maintain the old behavior.
-    - [ ] Create a corresponding spec file.
-  - [ ] **Phase 3: Update Existing Code**
-    - [ ] Find all usages of `Morf::Grid.new` in the codebase.
-    - [ ] Update them to wrap the existing `brain_class` in the new `Morf::DefaultBrainFactory`.
+    - [x] Create a corresponding spec file.
+  - [x] **Phase 3: Update Existing Code**
+    - [x] Find all usages of `Morf::Grid.new` in the codebase.
+    - [x] Update them to wrap the existing `brain_class` in the new `Morf::DefaultBrainFactory`.
       This includes `spec/morf/grid_spec.rb` and any existing experiment files.
 
 - [ ] **Create a NEAT Experiment:**

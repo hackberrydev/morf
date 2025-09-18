@@ -1,11 +1,12 @@
 require "spec_helper"
+require "morf/default_brain_factory"
 require "morf/experiments/dummy/brain"
 require "morf/experiments/dummy/sensor"
 
 RSpec.describe Morf::Grid do
   subject(:grid) do
     described_class.new(
-      brain_class: Morf::Experiments::Dummy::Brain,
+      brain_factory: brain_factory,
       sensor_class: Morf::Experiments::Dummy::Sensor,
       clock: Morf::Clock.new,
       rows: 4,
@@ -14,6 +15,7 @@ RSpec.describe Morf::Grid do
     )
   end
 
+  let(:brain_factory) { Morf::DefaultBrainFactory.new(Morf::Experiments::Dummy::Brain) }
   let(:seed) { double("Seed", state_for: 0, default_state: -1) }
 
   it "initializes a grid of cells with the correct number of rows and columns" do
