@@ -160,18 +160,29 @@ evolve the CPPNs.
     - [x] Use existing `Morf::CPPN::Sensor` for Moore neighborhood.
     - [x] Create `Morf::NEAT::NetworkBuilder` to construct a CPPN from a genome.
 
-  - [ ] **Phase 2: Implement Fitness Evaluation**
-    - [ ] Create `lib/morf/experiments/neat/fitness_evaluator.rb`. This class will manage the
+  - [x] **Phase 2: Implement Fitness Evaluation**
+    - [x] Create `lib/morf/experiments/neat/genome_developmental_trial.rb`. This class will manage the
       fitness evaluation for a single genome.
-    - [ ] It will be initialized with a genome and the target pattern.
-    - [ ] It will create a `Morf::CPPN::Brain` from the genome using the `NetworkBuilder`.
-    - [ ] It will create a specialized brain factory that returns the same brain instance.
-    - [ ] It will set up a grid with the `SEED_PATTERN` using the specialized brain factory.
-    - [ ] It will run the 30-iteration development loop. In each iteration, it will use
+    - [x] It will be initialized with a genome and the target pattern.
+    - [x] It will create a `Morf::CPPN::Brain` from the genome using the `NetworkBuilder`.
+    - [x] It will create a specialized brain factory that returns the same brain instance.
+      - **Note:** This was refactored into `Morf::StaticBrainFactory`.
+    - [x] It will set up a grid with the `SEED_PATTERN` using the specialized brain factory.
+    - [x] It will run the 30-iteration development loop. In each iteration, it will use
       `Morf::NEAT::Fitness::PatternTarget` to calculate the raw fitness.
-    - [ ] It will find the maximum raw fitness (`x`) across all iterations.
-    - [ ] It will calculate and return the final scaled fitness using the formula
+    - [x] It will find the maximum raw fitness (`x`) across all iterations.
+    - [x] It will calculate and return the final scaled fitness using the formula
       `f(x) = x * (exp(5*x)) / exp(5)`.
+
+  - [ ] **Refactor `GenomeDevelopmentalTrial` to use Dependency Injection**
+    - **Goal:** Improve OO design by decoupling the class from global constants.
+    - **Current:** The class directly uses `Morf::Experiments::NEAT::Constants` for values like
+      `GRID_SIZE`, `SEED_PATTERN`, and `DEVELOPMENT_ITERATIONS`. This makes it inflexible and harder
+      to test.
+    - **Proposed:** Modify the constructor to accept these values as arguments. The object that
+      creates the trial (the `Runner`) will be responsible for providing them.
+    - **Benefits:** This change will increase flexibility, reusability, and testability, adhering to
+      better OO principles.
 
   - [ ] **Phase 3: Implement the Main Experiment Runner**
     - [ ] Create `lib/morf/experiments/neat/runner.rb` to manage a single, complete experiment run.
