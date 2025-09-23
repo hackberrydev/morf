@@ -11,9 +11,12 @@ module Morf
   module Experiments
     module NEAT
       class GenomeDevelopmentalTrial
-        def initialize(genome, target_pattern)
+        def initialize(genome, target_pattern, grid_size:, seed_pattern:, development_iterations:)
           @genome = genome
           @target_pattern = target_pattern
+          @grid_size = grid_size
+          @seed_pattern = seed_pattern
+          @development_iterations = development_iterations
         end
 
         def evaluate
@@ -22,11 +25,11 @@ module Morf
           brain_factory = Morf::StaticBrainFactory.new(brain)
 
           clock = Morf::Clock.new
-          seed = Morf::Experiments::NEAT::Seed.new(Morf::Experiments::NEAT::Constants::SEED_PATTERN)
+          seed = Morf::Experiments::NEAT::Seed.new(@seed_pattern)
 
           grid = Morf::Grid.new(
-            rows: Morf::Experiments::NEAT::Constants::GRID_SIZE,
-            columns: Morf::Experiments::NEAT::Constants::GRID_SIZE,
+            rows: @grid_size,
+            columns: @grid_size,
             seed: seed,
             sensor_class: Morf::CPPN::Sensor,
             brain_factory: brain_factory,
@@ -36,7 +39,7 @@ module Morf
           fitness_calculator = Morf::NEAT::Fitness::PatternTarget.new(@target_pattern)
 
           raw_fitness_scores = []
-          Morf::Experiments::NEAT::Constants::DEVELOPMENT_ITERATIONS.times do
+          @development_iterations.times do
             clock.cycle
             raw_fitness_scores << fitness_calculator.evaluate(grid)
           end

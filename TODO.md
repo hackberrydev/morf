@@ -174,7 +174,7 @@ evolve the CPPNs.
     - [x] It will calculate and return the final scaled fitness using the formula
       `f(x) = x * (exp(5*x)) / exp(5)`.
 
-  - [ ] **Refactor `GenomeDevelopmentalTrial` to use Dependency Injection**
+  - [x] **Refactor `GenomeDevelopmentalTrial` to use Dependency Injection**
     - **Goal:** Improve OO design by decoupling the class from global constants.
     - **Current:** The class directly uses `Morf::Experiments::NEAT::Constants` for values like
       `GRID_SIZE`, `SEED_PATTERN`, and `DEVELOPMENT_ITERATIONS`. This makes it inflexible and harder
