@@ -184,25 +184,31 @@ evolve the CPPNs.
     - **Benefits:** This change will increase flexibility, reusability, and testability, adhering to
       better OO principles.
 
-  - [ ] **Phase 3: Implement the Main Experiment Runner**
-    - [ ] Create `lib/morf/experiments/neat/runner.rb` to manage a single, complete experiment run.
-    - [ ] The `run` method will contain the main loop for 100 generations.
+  - [x] **Create `InitialPopulationFactory`**
+    - The factory is responsible for creating a diverse initial population of genomes.
+    - It is located in `lib/morf/neat/initial_population_factory.rb`.
+
+  - [ ] **Phase 3: Implement the Main Experiment**
+    - [ ] Create `lib/morf/experiments/neat/experiment.rb` to manage a single, complete experiment run.
+    - [ ] The `run` method will contain the main loop for a configurable number of generations.
     - [ ] Inside the loop, it will:
-      - Use `FitnessEvaluator` to calculate the fitness for every genome in the population.
-      - Log the generation number, best/average fitness, and species count.
-      - Perform selection, reproduction, and mutation to create the next generation.
+      - [x] For each genome in the population, use `GenomeDevelopmentalTrial` to calculate its fitness.
+      - [ ] Use `Morf::NEAT::Speciation` to divide the population into species.
+        - **Note:** We need to add the speciation constants (`COMPATIBILITY_THRESHOLD`, `C1`, `C2`, `C3`) to `lib/morf/experiments/neat/constants.rb`.
+      - [ ] Log the generation number, best/average fitness, and species count.
+      - [ ] Perform selection, reproduction, and mutation to create the next generation.
+        - This involves calculating adjusted fitness, determining offspring counts, and using crossover and mutation.
     - [ ] After the loop, it will identify the best genome of the entire run and save it to a
       timestamped file using `Marshal.dump`.
 
   - [ ] **Phase 4: Create Executables**
     - [ ] Create a script `bin/run_neat_experiment` that starts the experiment by calling
-      `Morf::Experiments::NEAT::Runner.new.run`.
+      `Morf::Experiments::NEAT::Experiment.new.run`.
     - [ ] Create a script `bin/visualize_genome` that takes a path to a dumped genome file, loads
       it, and runs its development on a grid, rendering the result with `Morf::GridView`.
 
   - [ ] **Phase 5: Testing**
-    - [ ] Add basic RSpec tests for the new classes (`fitness_evaluator`, `runner`) to
-      ensure they are wired correctly.
+    - [ ] Add basic RSpec tests for the new `Experiment` class to ensure it is wired correctly.
 
 ## Notes
 
@@ -210,3 +216,4 @@ evolve the CPPNs.
 - We will keep the existing directory structure and conventions.
 - We will commit our changes frequently with clear and descriptive messages.
 - We will commit our changes after each step of the implementation.
+on.
