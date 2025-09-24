@@ -38,6 +38,12 @@ module Morf
         # CPPN Configuration
         CPPN_INPUTS = 9 # Moore neighborhood + self
         CPPN_OUTPUTS = 4 # dead, blue, white, red
+
+        # Speciation Constants
+        COMPATIBILITY_THRESHOLD = 3.0
+        C1 = 1.0 # Disjoint genes weight
+        C2 = 1.0 # Excess genes weight
+        C3 = 0.4 # Average weight difference weight
       end
     end
   end

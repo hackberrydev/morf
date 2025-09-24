@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+require "morf"
+require "morf/experiments/neat/experiment"
+
+Morf::Experiments::NEAT::Experiment.new.run

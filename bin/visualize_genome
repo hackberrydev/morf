@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+require "morf"
+
+if ARGV.empty?
+  puts "Usage: #{$PROGRAM_NAME} <path_to_genome_dump>"
+  exit 1
+end
+
+genome_file = ARGV.first
+generation_zero_seed = Morf::Experiments::NEAT::Constants::SEED_PATTERN
+
+puts "Visualizing genome from #{genome_file}"
+
+genome = File.open(genome_file, "rb") do |f|
+  Marshal.load(f)
+end
+
+network = Morf::NEAT::NetworkBuilder.new(genome).build
+brain = Morf::CPPN::Brain.new(network)
+brain_factory = Morf::StaticBrainFactory.new(brain)
+
+grid = Morf::Grid.new(
+  width: Morf::Experiments::NEAT::Constants::GRID_SIZE,
+  height: Morf::Experiments::NEAT::Constants::GRID_SIZE,
+  brain_factory: brain_factory,
+  seed_pattern: generation_zero_seed
+)
+
+view = Morf::GridView.new(
+  grid: grid,
+  cell_size: 50,
+  color_map: Morf::Experiments::NEAT::Constants::COLOR_MAP
+)
+
+(1..Morf::Experiments::NEAT::Constants::DEVELOPMENT_ITERATIONS).each do |i|
+  puts "Development iteration: #{i}"
+  grid.update
+  view.render
+  sleep 0.1
+end
+
+puts "Done!"
+view.show

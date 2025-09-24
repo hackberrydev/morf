@@ -4,6 +4,7 @@ module Morf
   module NEAT
     class Genome
       attr_reader :node_genes, :connection_genes
+      attr_accessor :fitness, :adjusted_fitness
 
       def initialize(node_genes:, connection_genes:)
         @node_genes = node_genes

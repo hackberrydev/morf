@@ -20,12 +20,12 @@ module Morf
           node_genes.concat(output_nodes)
 
           connection_genes = []
+          first_input_node = input_nodes.first
           output_nodes.each do |output_node|
-            input_node = input_nodes.sample
             connection_genes << Morf::NEAT::ConnectionGene.new(
-              in_node_id: input_node.id,
+              in_node_id: first_input_node.id,
               out_node_id: output_node.id,
-              weight: rand(-1.0..1.0),
+              weight: 0.0,
               enabled: true,
               innovation_number: next_innovation_number
             )

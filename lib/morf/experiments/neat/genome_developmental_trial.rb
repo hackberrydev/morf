@@ -6,6 +6,9 @@ require "morf/cppn/sensor"
 require "morf/experiments/neat/seed"
 
 require "morf/static_brain_factory"
+require "morf/neat/network_builder"
+require "morf/cppn/brain"
+require "morf/neat/fitness/pattern_target"
 
 module Morf
   module Experiments
