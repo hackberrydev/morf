@@ -65,30 +65,30 @@ module Morf
           conn2 = parent2_connections[j]
 
           if conn1.innovation_number == conn2.innovation_number
-            child_connection_genes << [conn1, conn2].sample(random: @random)
+            child_connection_genes << [conn1, conn2].sample(random: @random).clone
             i += 1
             j += 1
           elsif conn1.innovation_number < conn2.innovation_number
-            child_connection_genes << conn1 if fitness1 >= fitness2
+            child_connection_genes << conn1.clone if fitness1 >= fitness2
             i += 1
           else
-            child_connection_genes << conn2 if fitness2 >= fitness1
+            child_connection_genes << conn2.clone if fitness2 >= fitness1
             j += 1
           end
         end
 
         while i < parent1_connections.size
-          child_connection_genes << parent1_connections[i] if fitness1 >= fitness2
+          child_connection_genes << parent1_connections[i].clone if fitness1 >= fitness2
           i += 1
         end
 
         while j < parent2_connections.size
-          child_connection_genes << parent2_connections[j] if fitness2 >= fitness1
+          child_connection_genes << parent2_connections[j].clone if fitness2 >= fitness1
           j += 1
         end
 
         Morf::NEAT::Genome.new(
-          node_genes: parent1.node_genes,
+          node_genes: parent1.node_genes.map(&:clone),
           connection_genes: child_connection_genes
         )
       end
