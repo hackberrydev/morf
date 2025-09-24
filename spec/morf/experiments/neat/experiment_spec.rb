@@ -7,7 +7,13 @@ RSpec.describe Morf::Experiments::NEAT::Experiment do
   subject(:experiment) { described_class.new(generations: 1, population_size: 10) }
 
   describe "#run" do
-    let(:genome) { Morf::NEAT::Genome.new(node_genes: [], connection_genes: []) }
+    let(:node_genes) do
+      [
+        Morf::NEAT::NodeGene.new(id: 0, type: :input, activation_function: :identity),
+        Morf::NEAT::NodeGene.new(id: 1, type: :output, activation_function: :identity)
+      ]
+    end
+    let(:genome) { Morf::NEAT::Genome.new(node_genes: node_genes, connection_genes: []) }
     let(:population) { Morf::NEAT::Population.new(genomes: [genome]) }
     let(:initial_population_factory) { instance_double(Morf::NEAT::InitialPopulationFactory) }
     let(:developmental_trial) { instance_double(Morf::Experiments::NEAT::GenomeDevelopmentalTrial) }
@@ -15,7 +21,7 @@ RSpec.describe Morf::Experiments::NEAT::Experiment do
 
     before do
       allow(Morf::NEAT::InitialPopulationFactory).to receive(:new).and_return(initial_population_factory)
-      allow(initial_population_factory).to receive(:create).and_return({genomes: [genome], next_innovation_number: 1})
+      allow(initial_population_factory).to receive(:create).and_return({genomes: [genome], next_innovation_number: 1, next_node_id: 1})
       allow(Morf::Experiments::NEAT::GenomeDevelopmentalTrial).to receive(:new).and_return(developmental_trial)
       allow(developmental_trial).to receive(:evaluate).and_return(0.5)
       allow(Morf::NEAT::Speciation).to receive(:new).and_return(speciation)

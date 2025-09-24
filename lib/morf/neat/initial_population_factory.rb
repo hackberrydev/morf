@@ -41,7 +41,9 @@ module Morf
           )
         end
 
-        {genomes: genomes, next_innovation_number: next_innovation_number}
+        next_node_id = cppn_inputs + cppn_outputs
+
+        {genomes: genomes, next_innovation_number: next_innovation_number, next_node_id: next_node_id}
       end
     end
   end

@@ -39,9 +39,13 @@ module Morf
           )
           @population = Morf::NEAT::Population.new(genomes: result[:genomes])
           next_innovation_number = result[:next_innovation_number]
+          next_node_id = result[:next_node_id]
           best_genome_overall = nil
 
-          reproduction = Morf::NEAT::Reproduction.new(next_innovation_number: next_innovation_number)
+          reproduction = Morf::NEAT::Reproduction.new(
+            next_node_id: next_node_id,
+            next_innovation_number: next_innovation_number
+          )
 
           @generations.times do |generation|
             @population.genomes.each do |genome|

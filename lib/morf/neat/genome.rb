@@ -21,8 +21,7 @@ module Morf
 
       def connection_exists?(in_node_id, out_node_id)
         @connection_genes.any? do |gene|
-          (gene.in_node_id == in_node_id && gene.out_node_id == out_node_id) ||
-            (gene.in_node_id == out_node_id && gene.out_node_id == in_node_id)
+          gene.in_node_id == in_node_id && gene.out_node_id == out_node_id
         end
       end
     end
