@@ -87,8 +87,10 @@ module Morf
           j += 1
         end
 
+        node_genes = (parent1.node_genes + parent2.node_genes).uniq(&:id)
+
         Morf::NEAT::Genome.new(
-          node_genes: parent1.node_genes.map(&:clone),
+          node_genes: node_genes.map(&:clone),
           connection_genes: child_connection_genes
         )
       end
