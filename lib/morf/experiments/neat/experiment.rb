@@ -134,7 +134,7 @@ module Morf
 
           # Save the best genome
           timestamp = Time.now.strftime("%Y%m%d-%H%M%S")
-          filename = "best_genome-#{timestamp}.dump"
+          filename = "genomes/best_genome-#{timestamp}.dump"
           File.open(filename, "wb") do |f|
             Marshal.dump(best_genome_overall, f)
           end
