@@ -15,7 +15,7 @@ module Morf
         GRID_SIZE = 6
         DEVELOPMENT_ITERATIONS = 30
 
-        COLOR_MAP = {0 => :black, 1 => :blue, 2 => :white, 3 => :red}.freeze
+        COLOR_MAP = {0 => "black", 1 => "blue", 2 => "white", 3 => "red"}.freeze
 
         FRENCH_FLAG_PATTERN = [
           [1, 1, 2, 2, 3, 3],
@@ -42,7 +42,7 @@ module Morf
         # Speciation Constants
         COMPATIBILITY_THRESHOLD = 3.0
         C1 = 1.0 # Disjoint genes weight
-        C2 = 1.0 # Excess genes weight
+        C2 = 0.8 # Excess genes weight
         C3 = 0.4 # Average weight difference weight
       end
     end

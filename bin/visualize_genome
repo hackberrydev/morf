@@ -2,6 +2,16 @@
 
 $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
 require "morf"
+require "morf/cppn/brain"
+require "morf/cppn/sensor"
+require "morf/neat/connection_gene"
+require "morf/neat/genome"
+require "morf/neat/network_builder"
+require "morf/neat/node_gene"
+require "morf/experiments/cppn/cell_view"
+require "morf/experiments/neat/constants"
+require "morf/experiments/neat/seed"
+require "morf/static_brain_factory"
 
 if ARGV.empty?
   puts "Usage: #{$PROGRAM_NAME} <path_to_genome_dump>"
@@ -9,7 +19,6 @@ if ARGV.empty?
 end
 
 genome_file = ARGV.first
-generation_zero_seed = Morf::Experiments::NEAT::Constants::SEED_PATTERN
 
 puts "Visualizing genome from #{genome_file}"
 
@@ -17,29 +26,29 @@ genome = File.open(genome_file, "rb") do |f|
   Marshal.load(f)
 end
 
+clock = Morf::Clock.new
 network = Morf::NEAT::NetworkBuilder.new(genome).build
-brain = Morf::CPPN::Brain.new(network)
+brain = Morf::CPPN::Brain.new(network: network)
 brain_factory = Morf::StaticBrainFactory.new(brain)
+seed_pattern = Morf::Experiments::NEAT::Constants::SEED_PATTERN
+seed = Morf::Experiments::NEAT::Seed.new(seed_pattern)
 
 grid = Morf::Grid.new(
-  width: Morf::Experiments::NEAT::Constants::GRID_SIZE,
-  height: Morf::Experiments::NEAT::Constants::GRID_SIZE,
+  rows: Morf::Experiments::NEAT::Constants::GRID_SIZE,
+  columns: Morf::Experiments::NEAT::Constants::GRID_SIZE,
+  seed: seed,
   brain_factory: brain_factory,
-  seed_pattern: generation_zero_seed
+  sensor_class: Morf::CPPN::Sensor,
+  clock: clock
 )
 
 view = Morf::GridView.new(
   grid: grid,
   cell_size: 50,
-  color_map: Morf::Experiments::NEAT::Constants::COLOR_MAP
+  color_map: Morf::Experiments::NEAT::Constants::COLOR_MAP,
+  cell_view_class: Morf::Experiments::CPPN::CellView,
+  clock: clock,
+  time_limit: 30
 )
 
-(1..Morf::Experiments::NEAT::Constants::DEVELOPMENT_ITERATIONS).each do |i|
-  puts "Development iteration: #{i}"
-  grid.update
-  view.render
-  sleep 0.1
-end
-
-puts "Done!"
 view.show
