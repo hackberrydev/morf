@@ -42,8 +42,8 @@ module Morf
         # Speciation Constants
         COMPATIBILITY_THRESHOLD = 3.0
         C1 = 1.0 # Disjoint genes weight
-        C2 = 0.8 # Excess genes weight
-        C3 = 0.4 # Average weight difference weight
+        C2 = 1.0 # Excess genes weight
+        C3 = 0.5 # Average weight difference weight
       end
     end
   end
