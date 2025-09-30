@@ -56,7 +56,10 @@ module Morf
 
           reproduction = Morf::NEAT::Reproduction.new(
             next_node_id: next_node_id,
-            next_innovation_number: next_innovation_number
+            next_innovation_number: next_innovation_number,
+            weight_range: -30.0..30.0,
+            mutate_add_node_prob: 0.5,
+            mutate_add_connection_prob: 0.5
           )
 
           @generations.times do |generation|
