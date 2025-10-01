@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 require "morf/clock"
-require "morf/grid"
+require "morf/cppn/brain"
 require "morf/cppn/sensor"
 require "morf/experiments/neat/seed"
-
-require "morf/static_brain_factory"
-require "morf/neat/network_builder"
-require "morf/cppn/brain"
+require "morf/grid"
 require "morf/neat/fitness/pattern_target"
+require "morf/neat/network_builder"
+require "morf/static_brain_factory"
 
 module Morf
   module Experiments
