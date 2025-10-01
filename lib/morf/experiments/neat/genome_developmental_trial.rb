@@ -12,6 +12,8 @@ require "morf/static_brain_factory"
 module Morf
   module Experiments
     module NEAT
+      Result = Data.define(:raw_fitness, :fitness)
+
       class GenomeDevelopmentalTrial
         def initialize(genome, target_pattern, grid_size:, seed_pattern:, development_iterations:)
           @genome = genome
@@ -49,7 +51,9 @@ module Morf
           max_raw_fitness = raw_fitness_scores.max
 
           # f(x) = x * (exp(5*x)) / exp(5)
-          max_raw_fitness * Math.exp(5 * max_raw_fitness) / Math.exp(5)
+          fitness = max_raw_fitness * Math.exp(5 * max_raw_fitness) / Math.exp(5)
+
+          Result.new(fitness: fitness, raw_fitness: max_raw_fitness)
         end
       end
     end

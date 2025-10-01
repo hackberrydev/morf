@@ -66,7 +66,10 @@ RSpec.describe Morf::Experiments::NEAT::GenomeDevelopmentalTrial do
       expected_scaled_fitness = max_raw_fitness * Math.exp(5 * max_raw_fitness) / Math.exp(5)
 
       aggregate_failures do
-        expect(trial.evaluate).to be_within(0.0001).of(expected_scaled_fitness)
+        result = trial.evaluate
+
+        expect(result.fitness).to be_within(0.0001).of(expected_scaled_fitness)
+        expect(result.raw_fitness).to eq(max_raw_fitness)
 
         # Expect the clock to be cycled for each development iteration
         expect(clock).to have_received(:cycle).exactly(development_iterations).times

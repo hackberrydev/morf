@@ -56,7 +56,8 @@ module Morf
                 seed_pattern: @seed_pattern,
                 development_iterations: Morf::Experiments::NEAT::Constants::DEVELOPMENT_ITERATIONS
               )
-              genome.fitness = trial.evaluate
+              result = trial.evaluate
+              genome.fitness = result.fitness
             end
 
             best_genome_generation = @population.genomes.max_by(&:fitness)
