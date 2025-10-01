@@ -24,7 +24,7 @@ RSpec.describe Morf::Experiments::NEAT::Experiment do
       )
     end
 
-    let(:trial_result) { double("Trial result", fitness: 0.5) }
+    let(:trial_result) { double("Trial result", fitness: 0.5, raw_fitness: 0.5) }
 
     let(:developmental_trial) do
       instance_double(

@@ -58,6 +58,7 @@ module Morf
               )
               result = trial.evaluate
               genome.fitness = result.fitness
+              genome.raw_fitness = result.raw_fitness
             end
 
             best_genome_generation = @population.genomes.max_by(&:fitness)
@@ -75,7 +76,7 @@ module Morf
             species = speciation.speciate
 
             avg_fitness = @population.genomes.sum(&:fitness) / @population.genomes.size
-            puts "Generation: #{generation}, Species: #{species.size}, Best Fitness: #{best_genome_generation.fitness}, Avg Fitness: #{avg_fitness}"
+            puts "Generation: #{generation}, Species: #{species.size}, Best Fitness: #{best_genome_generation.fitness}, Best Raw Fitness: #{best_genome_generation.raw_fitness}, Avg Fitness: #{avg_fitness}"
 
             # Calculate adjusted fitness
             species.each do |s|
