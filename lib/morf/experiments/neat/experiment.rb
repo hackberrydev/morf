@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "csv"
+
 require "morf/experiments/neat/constants"
 require "morf/experiments/neat/genome_developmental_trial"
 require "morf/neat/initial_population_factory"
@@ -30,6 +32,16 @@ module Morf
         end
 
         def run
+          puts CSV.generate_line([
+            "Generation",
+            "Target Population",
+            "Population",
+            "Species",
+            "Max Fitness",
+            "Max Raw Fitness",
+            "Average Fitness"
+          ])
+
           initial_population_factory = Morf::NEAT::InitialPopulationFactory.new
           result = initial_population_factory.create(
             size: @population_size,
@@ -76,7 +88,16 @@ module Morf
             species = speciation.speciate
 
             avg_fitness = @population.genomes.sum(&:fitness) / @population.genomes.size
-            puts "Generation: #{generation}, Species: #{species.size}, Best Fitness: #{best_genome_generation.fitness}, Best Raw Fitness: #{best_genome_generation.raw_fitness}, Avg Fitness: #{avg_fitness}"
+
+            puts CSV.generate_line([
+              generation,
+              @population_size,
+              species.sum(&:count),
+              species.size,
+              best_genome_generation.fitness,
+              best_genome_generation.raw_fitness,
+              avg_fitness
+            ])
 
             # Calculate adjusted fitness
             species.each do |s|
