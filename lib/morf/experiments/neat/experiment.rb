@@ -60,32 +60,14 @@ module Morf
           )
 
           @generations.times do |generation|
-            @population.genomes.each do |genome|
-              trial = Morf::Experiments::NEAT::GenomeDevelopmentalTrial.new(
-                genome,
-                @target_pattern,
-                grid_size: @grid_size,
-                seed_pattern: @seed_pattern,
-                development_iterations: Morf::Experiments::NEAT::Constants::DEVELOPMENT_ITERATIONS
-              )
-              result = trial.evaluate
-              genome.fitness = result.fitness
-              genome.raw_fitness = result.raw_fitness
-            end
+            @population.genomes.each { |genome| run_developmental_trial(genome) }
 
             best_genome_generation = @population.genomes.max_by(&:fitness)
             if best_genome_overall.nil? || best_genome_generation.fitness > best_genome_overall.fitness
               best_genome_overall = best_genome_generation
             end
 
-            speciation = Morf::NEAT::Speciation.new(
-              population: @population.genomes,
-              compatibility_threshold: Constants::COMPATIBILITY_THRESHOLD,
-              c1: Constants::C1,
-              c2: Constants::C2,
-              c3: Constants::C3
-            )
-            species = speciation.speciate
+            species = separate_population_into_species(@population)
 
             avg_fitness = @population.genomes.sum(&:fitness) / @population.genomes.size
 
@@ -162,6 +144,33 @@ module Morf
             Marshal.dump(best_genome_overall, f)
           end
           puts "Saved best genome to #{filename}"
+        end
+
+        private
+
+        def run_developmental_trial(genome)
+          trial = Morf::Experiments::NEAT::GenomeDevelopmentalTrial.new(
+            genome,
+            @target_pattern,
+            grid_size: @grid_size,
+            seed_pattern: @seed_pattern,
+            development_iterations: Morf::Experiments::NEAT::Constants::DEVELOPMENT_ITERATIONS
+          )
+          result = trial.evaluate
+          genome.fitness = result.fitness
+          genome.raw_fitness = result.raw_fitness
+        end
+
+        def separate_population_into_species(population)
+          speciation = Morf::NEAT::Speciation.new(
+            population: population.genomes,
+            compatibility_threshold: Constants::COMPATIBILITY_THRESHOLD,
+            c1: Constants::C1,
+            c2: Constants::C2,
+            c3: Constants::C3
+          )
+
+          speciation.speciate
         end
       end
     end
