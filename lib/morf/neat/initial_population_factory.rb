@@ -8,18 +8,47 @@ module Morf
   module NEAT
     class InitialPopulationFactory
       def create(size:, cppn_inputs:, cppn_outputs:, next_innovation_number:)
-        # Create a single template for all initial genomes
-        node_genes = []
-        input_nodes = cppn_inputs.times.map do |i|
+        input_nodes = create_input_nodes(cppn_inputs)
+        output_nodes = create_output_nodes(cppn_inputs, cppn_outputs)
+        node_genes = input_nodes + output_nodes
+
+        connection_genes, next_innovation_number = create_connection_genes(
+          input_nodes: input_nodes,
+          output_nodes: output_nodes,
+          next_innovation_number: next_innovation_number
+        )
+
+        genomes = Array.new(size) do
+          Morf::NEAT::Genome.new(
+            node_genes: node_genes.map(&:clone),
+            connection_genes: connection_genes.map(&:clone)
+          )
+        end
+
+        {
+          genomes: genomes,
+          next_innovation_number: next_innovation_number,
+          next_node_id: cppn_inputs + cppn_outputs
+        }
+      end
+
+      private
+
+      def create_input_nodes(cppn_inputs)
+        cppn_inputs.times.map do |i|
           Morf::NEAT::NodeGene.new(id: i, type: :input, activation_function: :sigmoid)
         end
-        output_nodes = cppn_outputs.times.map do |i|
+      end
+
+      def create_output_nodes(cppn_inputs, cppn_outputs)
+        cppn_outputs.times.map do |i|
           Morf::NEAT::NodeGene.new(id: cppn_inputs + i, type: :output, activation_function: :identity)
         end
-        node_genes.concat(input_nodes)
-        node_genes.concat(output_nodes)
+      end
 
+      def create_connection_genes(input_nodes:, output_nodes:, next_innovation_number:)
         connection_genes = []
+
         input_nodes.each do |input_node|
           output_nodes.each do |output_node|
             connection_genes << Morf::NEAT::ConnectionGene.new(
@@ -33,17 +62,7 @@ module Morf
           end
         end
 
-        # Create the population by cloning the template genome
-        genomes = Array.new(size) do
-          Morf::NEAT::Genome.new(
-            node_genes: node_genes.map(&:clone),
-            connection_genes: connection_genes.map(&:clone)
-          )
-        end
-
-        next_node_id = cppn_inputs + cppn_outputs
-
-        {genomes: genomes, next_innovation_number: next_innovation_number, next_node_id: next_node_id}
+        [connection_genes, next_innovation_number]
       end
     end
   end
