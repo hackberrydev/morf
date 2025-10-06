@@ -25,7 +25,7 @@ module Morf
             connection_genes << Morf::NEAT::ConnectionGene.new(
               in_node_id: input_node.id,
               out_node_id: output_node.id,
-              weight: 0.0,
+              weight: rand * 2.0 - 1.0,
               enabled: true,
               innovation_number: next_innovation_number
             )
