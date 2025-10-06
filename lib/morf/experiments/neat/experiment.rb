@@ -111,6 +111,9 @@ module Morf
               end
             end
 
+            puts "Total adjusted fitness: #{total_adjusted_fitness}"
+            puts "Species offspring count: #{species_offspring_counts}"
+
             # Create next generation
             next_generation = []
             species.each_with_index do |s, i|
