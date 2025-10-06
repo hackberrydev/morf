@@ -24,6 +24,14 @@ module Morf
           gene.in_node_id == in_node_id && gene.out_node_id == out_node_id
         end
       end
+
+      def nodes_count
+        @node_genes.count
+      end
+
+      def connections_count
+        @connection_genes.count
+      end
     end
   end
 end

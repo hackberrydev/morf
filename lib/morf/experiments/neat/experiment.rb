@@ -39,7 +39,9 @@ module Morf
             "Species",
             "Max Fitness",
             "Max Raw Fitness",
-            "Average Fitness"
+            "Average Fitness",
+            "Max Nodes",
+            "Max Connections"
           ])
 
           initial_population_factory = Morf::NEAT::InitialPopulationFactory.new
@@ -73,6 +75,8 @@ module Morf
             species = separate_population_into_species(@population)
 
             avg_fitness = @population.genomes.sum(&:fitness) / @population.genomes.size
+            max_nodes = @population.genomes.map(&:nodes_count).max
+            max_connections = @population.genomes.map(&:connections_count).max
 
             puts CSV.generate_line([
               generation,
@@ -81,7 +85,9 @@ module Morf
               species.size,
               best_genome_generation.fitness,
               best_genome_generation.raw_fitness,
-              avg_fitness
+              avg_fitness,
+              max_nodes,
+              max_connections
             ])
 
             # Calculate adjusted fitness
