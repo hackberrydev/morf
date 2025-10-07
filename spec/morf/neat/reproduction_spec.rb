@@ -37,7 +37,13 @@ RSpec.describe Morf::NEAT::Reproduction do
           Morf::NEAT::NodeGene.new(id: 1, type: :output, activation_function: :identity)
         ]
       end
-      let(:p1_conn) { Morf::NEAT::ConnectionGene.new(in_node_id: 0, out_node_id: 1, weight: 0.5, enabled: true, innovation_number: 0) }
+
+      let(:p1_conn) do
+        Morf::NEAT::ConnectionGene.new(
+          in_node_id: 0, out_node_id: 1, weight: 0.5, enabled: true, innovation_number: 0
+        )
+      end
+
       let(:parent1) { Morf::NEAT::Genome.new(node_genes: p1_nodes, connection_genes: [p1_conn]) }
 
       let(:p2_nodes) do
@@ -47,9 +53,22 @@ RSpec.describe Morf::NEAT::Reproduction do
           Morf::NEAT::NodeGene.new(id: 2, type: :hidden, activation_function: :identity)
         ]
       end
-      let(:p2_conn1) { Morf::NEAT::ConnectionGene.new(in_node_id: 0, out_node_id: 1, weight: 0.5, enabled: true, innovation_number: 0) }
-      let(:p2_conn2) { Morf::NEAT::ConnectionGene.new(in_node_id: 0, out_node_id: 2, weight: 0.5, enabled: true, innovation_number: 1) }
-      let(:parent2) { Morf::NEAT::Genome.new(node_genes: p2_nodes, connection_genes: [p2_conn1, p2_conn2]) }
+
+      let(:p2_conn1) do
+        Morf::NEAT::ConnectionGene.new(
+          in_node_id: 0, out_node_id: 1, weight: 0.5, enabled: true, innovation_number: 0
+        )
+      end
+
+      let(:p2_conn2) do
+        Morf::NEAT::ConnectionGene.new(
+          in_node_id: 0, out_node_id: 2, weight: 0.5, enabled: true, innovation_number: 1
+        )
+      end
+
+      let(:parent2) do
+        Morf::NEAT::Genome.new(node_genes: p2_nodes, connection_genes: [p2_conn1, p2_conn2])
+      end
 
       it "includes genes correctly when parent2 is more fit" do
         child = reproduction.crossover(parent1, parent2, 1.0, 2.0)

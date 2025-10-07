@@ -2,6 +2,7 @@
 
 require "morf/neat/node_gene"
 require "morf/neat/connection_gene"
+require "morf/cppn/activation_functions"
 
 module Morf
   module NEAT
@@ -20,11 +21,27 @@ module Morf
 
           connection_to_split.disable
 
-          new_node = Morf::NEAT::NodeGene.new(id: @next_node_id, type: :hidden, activation_function: :sigmoid)
+          new_node = Morf::NEAT::NodeGene.new(
+            id: @next_node_id,
+            type: :hidden,
+            activation_function: Morf::CPPN::ActivationFunctions.random(random: @random)
+          )
+
           @genome.add_node_gene(new_node)
 
-          create_new_connection(connection_to_split.in_node_id, new_node.id, 1.0, @next_innovation_number)
-          create_new_connection(new_node.id, connection_to_split.out_node_id, connection_to_split.weight, @next_innovation_number + 1)
+          create_new_connection(
+            connection_to_split.in_node_id,
+            new_node.id,
+            1.0,
+            @next_innovation_number
+          )
+
+          create_new_connection(
+            new_node.id,
+            connection_to_split.out_node_id,
+            connection_to_split.weight,
+            @next_innovation_number + 1
+          )
 
           {next_node_id: @next_node_id + 1, next_innovation_number: @next_innovation_number + 2}
         end

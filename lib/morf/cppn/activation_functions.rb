@@ -3,6 +3,11 @@
 module Morf
   module CPPN
     module ActivationFunctions
+      ALL = [
+        :sigmoid, :tanh, :sin, :gauss, :relu, :identity,
+        :clamped, :inv, :log, :exp, :abs, :hat, :square, :cube
+      ].freeze
+
       def self.sigmoid(x)
         1.0 / (1.0 + Math.exp(-x))
       end
@@ -63,6 +68,10 @@ module Morf
 
       def self.cube(x)
         x**3
+      end
+
+      def self.random(random:)
+        ALL.sample(random: random)
       end
     end
   end

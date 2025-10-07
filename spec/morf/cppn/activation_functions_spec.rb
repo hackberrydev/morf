@@ -151,4 +151,22 @@ RSpec.describe Morf::CPPN::ActivationFunctions do
       end
     end
   end
+
+  describe "ALL" do
+    it "contains all available activation functions" do
+      expect(described_class::ALL).to contain_exactly(
+        :sigmoid, :tanh, :sin, :gauss, :relu, :identity,
+        :clamped, :inv, :log, :exp, :abs, :hat, :square, :cube
+      )
+    end
+  end
+
+  describe ".random" do
+    it "returns a random activation function from ALL" do
+      random = Random.new(42)
+      result = described_class.random(random: random)
+
+      expect(described_class::ALL).to include(result)
+    end
+  end
 end
