@@ -11,6 +11,13 @@ module Morf
         @connection_genes = connection_genes
       end
 
+      def clone
+        self.class.new(
+          node_genes: @node_genes.map(&:clone),
+          connection_genes: @connection_genes.map(&:clone)
+        )
+      end
+
       def add_node_gene(node_gene)
         @node_genes << node_gene
       end

@@ -45,4 +45,64 @@ RSpec.describe Morf::NEAT::Genome do
       expect(genome.connection_genes).to include(new_connection_gene)
     end
   end
+
+  describe "#clone" do
+    let(:cloned_genome) { genome.clone }
+
+    it "creates a new genome instance" do
+      expect(cloned_genome).not_to be(genome)
+    end
+
+    it "creates new node_genes array" do
+      expect(cloned_genome.node_genes).not_to be(genome.node_genes)
+    end
+
+    it "creates new connection_genes array" do
+      expect(cloned_genome.connection_genes).not_to be(genome.connection_genes)
+    end
+
+    it "clones node genes" do
+      expect(cloned_genome.node_genes.first).not_to be(genome.node_genes.first)
+    end
+
+    it "clones connection genes" do
+      expect(cloned_genome.connection_genes.first).not_to be(genome.connection_genes.first)
+    end
+
+    it "preserves node gene attributes" do
+      aggregate_failures do
+        original_node = genome.node_genes.first
+        cloned_node = cloned_genome.node_genes.first
+        expect(cloned_node.id).to eq(original_node.id)
+        expect(cloned_node.type).to eq(original_node.type)
+        expect(cloned_node.activation_function).to eq(original_node.activation_function)
+      end
+    end
+
+    it "preserves connection gene attributes" do
+      aggregate_failures do
+        original_conn = genome.connection_genes.first
+        cloned_conn = cloned_genome.connection_genes.first
+        expect(cloned_conn.in_node_id).to eq(original_conn.in_node_id)
+        expect(cloned_conn.out_node_id).to eq(original_conn.out_node_id)
+        expect(cloned_conn.weight).to eq(original_conn.weight)
+        expect(cloned_conn.enabled).to eq(original_conn.enabled)
+        expect(cloned_conn.innovation_number).to eq(original_conn.innovation_number)
+      end
+    end
+
+    it "allows independent modification of connection gene weight" do
+      original_weight = genome.connection_genes.first.weight
+      cloned_genome.connection_genes.first.weight = 0.9
+      expect(genome.connection_genes.first.weight).to eq(original_weight)
+    end
+
+    it "allows independent modification via disable method" do
+      aggregate_failures do
+        cloned_genome.connection_genes.first.disable
+        expect(genome.connection_genes.first.enabled?).to be(true)
+        expect(cloned_genome.connection_genes.first.enabled?).to be(false)
+      end
+    end
+  end
 end
