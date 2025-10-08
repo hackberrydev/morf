@@ -127,17 +127,12 @@ module Morf
               s.sort_by!(&:fitness).reverse!
               next_generation << s.first if s.first
 
-              # Crossover and mutation
+              # Duel and mutation
               (species_offspring_counts[i] - 1).times do
                 parent1 = s.sample
                 parent2 = s.sample
 
-                child = if parent1.fitness > parent2.fitness
-                  reproduction.crossover(parent1, parent2, parent1.fitness, parent2.fitness)
-                else
-                  reproduction.crossover(parent2, parent1, parent2.fitness, parent1.fitness)
-                end
-
+                child = reproduction.duel(parent1, parent2)
                 reproduction.mutate(child)
                 next_generation << child
               end

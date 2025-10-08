@@ -87,4 +87,72 @@ RSpec.describe Morf::NEAT::Reproduction do
       end
     end
   end
+
+  describe "#duel" do
+    let(:parent1_conn) do
+      Morf::NEAT::ConnectionGene.new(in_node_id: 0, out_node_id: 1, weight: 1.0, enabled: true, innovation_number: 0)
+    end
+    let(:parent2_conn) do
+      Morf::NEAT::ConnectionGene.new(in_node_id: 0, out_node_id: 1, weight: 2.0, enabled: true, innovation_number: 0)
+    end
+    let(:parent1) { Morf::NEAT::Genome.new(node_genes: node_genes, connection_genes: [parent1_conn]) }
+    let(:parent2) { Morf::NEAT::Genome.new(node_genes: node_genes, connection_genes: [parent2_conn]) }
+
+    before do
+      parent1.fitness = fitness1
+      parent2.fitness = fitness2
+    end
+
+    context "when parent1 has higher fitness" do
+      let(:fitness1) { 10.0 }
+      let(:fitness2) { 5.0 }
+
+      it "returns a clone of the winner" do
+        aggregate_failures do
+          winner = reproduction.duel(parent1, parent2)
+          expect(winner).to be_a(Morf::NEAT::Genome)
+          expect(winner).not_to be(parent1)
+          expect(winner).not_to be(parent2)
+        end
+      end
+
+      it "parent1 wins more frequently" do
+        winners = Array.new(1000) { reproduction.duel(parent1, parent2) }
+        parent1_wins = winners.count { |w| (w.connection_genes.first.weight - 1.0).abs < 0.001 }
+        expect(parent1_wins).to be > 600
+      end
+    end
+
+    context "when parent2 has higher fitness" do
+      let(:fitness1) { 3.0 }
+      let(:fitness2) { 12.0 }
+
+      it "parent2 wins more frequently" do
+        winners = Array.new(1000) { reproduction.duel(parent1, parent2) }
+        parent2_wins = winners.count { |w| (w.connection_genes.first.weight - 2.0).abs < 0.001 }
+        expect(parent2_wins).to be > 700
+      end
+    end
+
+    context "when both parents have equal fitness" do
+      let(:fitness1) { 5.0 }
+      let(:fitness2) { 5.0 }
+
+      it "both parents win with approximately equal probability" do
+        winners = Array.new(1000) { reproduction.duel(parent1, parent2) }
+        parent1_wins = winners.count { |w| (w.connection_genes.first.weight - 1.0).abs < 0.001 }
+        expect(parent1_wins).to be_between(400, 600)
+      end
+    end
+
+    context "when both parents have zero or negative fitness" do
+      let(:fitness1) { 0.0 }
+      let(:fitness2) { 0.0 }
+
+      it "randomly picks a winner" do
+        winner = reproduction.duel(parent1, parent2)
+        expect(winner).to be_a(Morf::NEAT::Genome)
+      end
+    end
+  end
 end

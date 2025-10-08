@@ -94,6 +94,35 @@ module Morf
           connection_genes: child_connection_genes
         )
       end
+
+      # Two genomes duel - the one with higher fitness has a higher chance of winning.
+      # Returns a clone of the winner.
+      #
+      # @param parent1 [Genome] First parent candidate
+      # @param parent2 [Genome] Second parent candidate
+      # @return [Genome] Clone of the winner
+      def duel(parent1, parent2)
+        fitness1 = parent1.fitness
+        fitness2 = parent2.fitness
+
+        # If both fitnesses are zero or negative, randomly select one
+        if fitness1 <= 0 && fitness2 <= 0
+          return [parent1, parent2].sample(random: @random).clone
+        end
+
+        # Calculate selection probabilities based on relative fitness
+        total_fitness = fitness1 + fitness2
+        prob_parent1 = fitness1 / total_fitness
+
+        # Select parent based on probability
+        selected_parent = if @random.rand < prob_parent1
+          parent1
+        else
+          parent2
+        end
+
+        selected_parent.clone
+      end
     end
   end
 end
