@@ -105,11 +105,6 @@ module Morf
         fitness1 = parent1.fitness
         fitness2 = parent2.fitness
 
-        # If both fitnesses are zero or negative, randomly select one
-        if fitness1 <= 0 && fitness2 <= 0
-          return [parent1, parent2].sample(random: @random).clone
-        end
-
         # Calculate selection probabilities based on relative fitness
         total_fitness = fitness1 + fitness2
         prob_parent1 = fitness1 / total_fitness
