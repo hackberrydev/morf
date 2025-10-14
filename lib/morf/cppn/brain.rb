@@ -8,6 +8,8 @@ module Morf
       end
 
       def next_state(state, inputs)
+        return 0 if state.zero? && inputs.all?(&:zero?)
+
         normalized_inputs = normalize_inputs([state] + inputs)
         outputs = @network.evaluate(normalized_inputs)
         outputs.each_with_index.max[1]

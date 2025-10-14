@@ -45,5 +45,23 @@ RSpec.describe Morf::CPPN::Brain do
         expect(output).to eq(1)
       end
     end
+
+    context "when cell is dead and all neighbours are dead" do
+      let(:num_outputs) { 4 }
+      let(:state) { 0 }
+      let(:inputs) { [0, 0, 0, 0, 0, 0, 0, 0] }
+
+      it "returns dead state without evaluating the CPPN network" do
+        output = brain.next_state(state, inputs)
+
+        expect(output).to eq(0)
+      end
+
+      it "does not call the network evaluate method" do
+        brain.next_state(state, inputs)
+
+        expect(network).not_to have_received(:evaluate)
+      end
+    end
   end
 end
