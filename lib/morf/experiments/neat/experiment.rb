@@ -33,6 +33,7 @@ module Morf
 
         def run
           puts CSV.generate_line([
+            "Time",
             "Generation",
             "Target Population",
             "Population",
@@ -79,6 +80,7 @@ module Morf
             max_connections = @population.genomes.map(&:connections_count).max
 
             puts CSV.generate_line([
+              Time.now.strftime("%H:%M:%S"),
               generation,
               @population_size,
               species.sum(&:count),
