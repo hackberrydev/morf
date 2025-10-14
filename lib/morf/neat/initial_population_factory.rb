@@ -51,6 +51,9 @@ module Morf
 
         input_nodes.each do |input_node|
           output_nodes.each do |output_node|
+            # Skip some connections so that network is not fully connected
+            next if rand < 0.25
+
             connection_genes << Morf::NEAT::ConnectionGene.new(
               in_node_id: input_node.id,
               out_node_id: output_node.id,
