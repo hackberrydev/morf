@@ -5,7 +5,7 @@ require "morf/experiments/neat/genome_developmental_trial"
 require "morf/experiments/neat/constants"
 require "morf/neat/genome"
 
-require "morf/sensors/moore_sensor"
+require "morf/sensors/von_neumann_sensor"
 require "morf/experiments/neat/seed"
 
 require "morf/static_brain_factory"
@@ -47,7 +47,7 @@ RSpec.describe Morf::Experiments::NEAT::GenomeDevelopmentalTrial do
       rows: grid_size,
       columns: grid_size,
       seed: seed,
-      sensor_class: Morf::Sensors::MooreSensor,
+      sensor_class: Morf::Sensors::VonNeumannSensor,
       brain_factory: brain_factory,
       clock: clock
     ).and_return(grid)

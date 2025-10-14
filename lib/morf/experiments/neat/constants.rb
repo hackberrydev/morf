@@ -36,7 +36,7 @@ module Morf
         ].freeze
 
         # CPPN Configuration
-        CPPN_INPUTS = 9 # Moore neighborhood + self
+        CPPN_INPUTS = 5 # von Neumann neighborhood + self
         CPPN_OUTPUTS = 4 # dead, blue, white, red
 
         # Speciation Constants

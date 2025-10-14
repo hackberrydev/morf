@@ -3,7 +3,7 @@
 $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
 require "morf"
 require "morf/cppn/brain"
-require "morf/cppn/sensor"
+require "morf/sensors/von_neumann_sensor"
 require "morf/neat/connection_gene"
 require "morf/neat/genome"
 require "morf/neat/network_builder"
@@ -38,7 +38,7 @@ grid = Morf::Grid.new(
   columns: Morf::Experiments::NEAT::Constants::GRID_SIZE,
   seed: seed,
   brain_factory: brain_factory,
-  sensor_class: Morf::CPPN::Sensor,
+  sensor_class: Morf::Sensors::VonNeumannSensor,
   clock: clock
 )
 
@@ -48,7 +48,7 @@ view = Morf::GridView.new(
   color_map: Morf::Experiments::NEAT::Constants::COLOR_MAP,
   cell_view_class: Morf::Experiments::CPPN::CellView,
   clock: clock,
-  time_limit: 30
+  time_limit: 60
 )
 
 view.show

@@ -45,8 +45,8 @@ Based on our discussion, the following parameters have been defined for the init
   - **Seed Pattern:** A grid of dead cells (0) with a single white cell (2) at `(2, 2)`.
 
 - **CPPN Configuration:**
-  - **Inputs:** The integer state of each of the 8 neighboring cells (Moore neighborhood) and the
-    cell's own last state.
+  - **Inputs:** The integer state of each of the 4 neighboring cells (von Neumann neighborhood: top,
+    right, bottom, left) and the cell's own last state.
   - **Outputs:** 4 nodes (one for each state: dead, blue, white, red), using a "winner-take-all"
     mechanism to determine the cell's state.
 
