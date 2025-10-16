@@ -2,7 +2,7 @@
 
 require "morf/clock"
 require "morf/cppn/brain"
-require "morf/cppn/sensor"
+require "morf/sensors/moore_sensor"
 require "morf/experiments/neat/seed"
 require "morf/grid"
 require "morf/neat/fitness/pattern_target"
@@ -35,7 +35,7 @@ module Morf
             rows: @grid_size,
             columns: @grid_size,
             seed: seed,
-            sensor_class: Morf::CPPN::Sensor,
+            sensor_class: Morf::Sensors::MooreSensor,
             brain_factory: brain_factory,
             clock: clock
           )
