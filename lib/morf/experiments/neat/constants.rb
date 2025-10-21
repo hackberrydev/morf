@@ -3,11 +3,7 @@
 module Morf
   module Experiments
     module NEAT
-      # TODO: Review if these constants should be refactored. Some of these
-      # values should maybe not be constants. Also, maybe they should be
-      # grouped differently.
       module Constants
-        INDEPENDENT_RUNS = 1
         POPULATION_SIZE = 200
         GENERATIONS = 100
         ELITISM_DEGREE = 1

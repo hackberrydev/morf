@@ -127,7 +127,7 @@ module Morf
             species.each_with_index do |s, i|
               # Elitism
               s.sort_by!(&:fitness).reverse!
-              next_generation << s.first if s.first
+              next_generation.push(*s.take(Morf::Experiments::NEAT::Constants::ELITISM_DEGREE))
 
               # Duel and mutation
               (species_offspring_counts[i] - 1).times do
