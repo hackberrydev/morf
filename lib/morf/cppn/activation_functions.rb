@@ -9,65 +9,75 @@ module Morf
       ].freeze
 
       def self.sigmoid(x)
-        1.0 / (1.0 + Math.exp(-x))
+        process_output(1.0 / (1.0 + Math.exp(-x)), x)
       end
 
       def self.tanh(x)
-        Math.tanh(x)
+        process_output(Math.tanh(x), x)
       end
 
       def self.sin(x)
-        Math.sin(x)
+        process_output(Math.sin(x), x)
       end
 
       def self.gauss(x)
-        Math.exp(-x**2)
+        process_output(Math.exp(-x**2), x)
       end
 
       def self.relu(x)
-        [0, x].max
+        process_output([0, x].max, x)
       end
 
       def self.identity(x)
-        x
+        process_output(x, x)
       end
 
       def self.clamped(x)
-        x.clamp(-1.0, 1.0)
+        process_output(x.clamp(-1.0, 1.0), x)
       end
 
       def self.inv(x)
         return 0.0 if x.zero?
 
-        1.0 / x
+        process_output(1.0 / x, x)
       end
 
       def self.log(x)
         return 0.0 if x <= 0.0
 
-        Math.log(x)
+        process_output(Math.log(x), x)
       end
 
       def self.exp(x)
-        Math.exp(x)
+        process_output(Math.exp(x), x)
       end
 
       def self.abs(x)
-        x.abs
+        process_output(x.abs, x)
       end
 
       def self.hat(x)
         return 0.0 if x.abs > 1.0
 
-        1.0 - x.abs
+        process_output(1.0 - x.abs, x)
       end
 
       def self.square(x)
-        x**2
+        process_output(x**2, x)
       end
 
       def self.cube(x)
-        x**3
+        process_output(x**3, x)
+      end
+
+      def self.process_output(result, x)
+        return result if result.integer?
+
+        if result.nan? || result.infinite?
+          raise "Result is #{result.inspect} for #{x}"
+        end
+
+        result
       end
 
       def self.random(random:)
