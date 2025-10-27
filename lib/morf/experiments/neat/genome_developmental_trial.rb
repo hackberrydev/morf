@@ -19,21 +19,11 @@ module Morf
           @grid_size = grid_size
           @seed_pattern = seed_pattern
           @development_iterations = development_iterations
+          @clock = Morf::Clock.new
         end
 
         def evaluate
-          clock = Morf::Clock.new
-          grid = build_grid(clock)
-          fitness_calculator = Morf::NEAT::Fitness::PatternTarget.new(@target_pattern)
-
-          raw_fitness_scores = []
-
-          @development_iterations.times do
-            clock.cycle
-            raw_fitness_scores << fitness_calculator.evaluate(grid)
-          end
-
-          max_raw_fitness = raw_fitness_scores.max
+          max_raw_fitness = run_trial
 
           # f(x) = x * (exp(5*x)) / exp(5)
           fitness = max_raw_fitness * Math.exp(5 * max_raw_fitness) / Math.exp(5)
@@ -43,14 +33,28 @@ module Morf
 
         private
 
-        def build_grid(clock)
+        def run_trial
+          grid = build_grid
+          fitness_calculator = Morf::NEAT::Fitness::PatternTarget.new(@target_pattern)
+
+          raw_fitness_scores = []
+
+          @development_iterations.times do
+            @clock.cycle
+            raw_fitness_scores << fitness_calculator.evaluate(grid)
+          end
+
+          raw_fitness_scores.max
+        end
+
+        def build_grid
           Morf::Grid.new(
             rows: @grid_size,
             columns: @grid_size,
             seed: Morf::Experiments::NEAT::Seed.new(@seed_pattern),
             sensor_class: Morf::Sensors::VonNeumannSensor,
             brain_factory: Morf::NEAT::BrainFactory.new(@genome),
-            clock: clock
+            clock: @clock
           )
         end
       end
