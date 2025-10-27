@@ -8,7 +8,7 @@ require "morf/neat/genome"
 require "morf/sensors/von_neumann_sensor"
 require "morf/experiments/neat/seed"
 
-require "morf/static_brain_factory"
+require "morf/neat/brain_factory"
 
 RSpec.describe Morf::Experiments::NEAT::GenomeDevelopmentalTrial do
   subject(:trial) do
@@ -32,16 +32,14 @@ RSpec.describe Morf::Experiments::NEAT::GenomeDevelopmentalTrial do
   let(:grid) { instance_double(Morf::Grid) }
   let(:pattern_target) { instance_double(Morf::NEAT::Fitness::PatternTarget) }
   let(:seed) { instance_double(Morf::Experiments::NEAT::Seed) }
-  let(:brain_factory) { instance_double(Morf::StaticBrainFactory) }
+  let(:brain_factory) { instance_double(Morf::NEAT::BrainFactory) }
 
   before do
     allow(Morf::Clock).to receive(:new).and_return(clock)
     allow(Morf::Experiments::NEAT::Seed).to receive(:new).with(seed_pattern).and_return(seed)
 
-    # Stub the sequence of object creations that will happen inside `evaluate`
-    allow(Morf::NEAT::NetworkBuilder).to receive(:new).with(genome).and_return(double(build: cppn_network))
-    allow(Morf::CPPN::Brain).to receive(:new).with(network: cppn_network).and_return(cppn_brain)
-    allow(Morf::StaticBrainFactory).to receive(:new).with(cppn_brain).and_return(brain_factory)
+    # Stub the brain factory creation
+    allow(Morf::NEAT::BrainFactory).to receive(:new).with(genome).and_return(brain_factory)
 
     allow(Morf::Grid).to receive(:new).with(
       rows: grid_size,

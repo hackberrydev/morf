@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
 require "morf/clock"
-require "morf/cppn/brain"
 require "morf/sensors/von_neumann_sensor"
 require "morf/experiments/neat/seed"
 require "morf/grid"
 require "morf/neat/fitness/pattern_target"
-require "morf/neat/network_builder"
-require "morf/static_brain_factory"
+require "morf/neat/brain_factory"
 
 module Morf
   module Experiments
@@ -24,12 +22,9 @@ module Morf
         end
 
         def evaluate
-          network = Morf::NEAT::NetworkBuilder.new(@genome).build
-          brain = Morf::CPPN::Brain.new(network: network)
-          brain_factory = Morf::StaticBrainFactory.new(brain)
-
           clock = Morf::Clock.new
           seed = Morf::Experiments::NEAT::Seed.new(@seed_pattern)
+          brain_factory = Morf::NEAT::BrainFactory.new(@genome)
 
           grid = Morf::Grid.new(
             rows: @grid_size,
