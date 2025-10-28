@@ -5,7 +5,7 @@ module Morf
     module ActivationFunctions
       ALL = [
         :sigmoid, :tanh, :sin, :gauss, :relu, :identity,
-        :clamped, :inv, :log, :abs, :hat, :square, :cube
+        :clamped, :log, :abs, :hat, :square, :cube
       ].freeze
 
       def self.sigmoid(x)
