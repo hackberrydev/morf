@@ -10,33 +10,25 @@ module Morf
       class Mutator
         attr_reader :next_node_id, :next_innovation_number
 
-        def initialize(random:,
+        def initialize(
+          random:,
           next_node_id:,
           next_innovation_number:,
-          mutate_add_node_prob:,
-          mutate_add_connection_prob:,
-          mutate_weights_prob:,
-          new_weight_prob:,
-          weight_range:,
-          add_connection_max_attempts:)
+          mutation_config:
+        )
           @random = random
           @next_node_id = next_node_id
           @next_innovation_number = next_innovation_number
-          @mutate_add_node_prob = mutate_add_node_prob
-          @mutate_add_connection_prob = mutate_add_connection_prob
-          @mutate_weights_prob = mutate_weights_prob
-          @new_weight_prob = new_weight_prob
-          @weight_range = weight_range
-          @add_connection_max_attempts = add_connection_max_attempts
+          @mutation_config = mutation_config
         end
 
         # Mutates the genome by applying different types of mutations.
         # Each mutation type has an independent probability of occurring,
         # meaning a genome can undergo multiple types of mutations at once.
         def mutate(genome)
-          mutate_add_node(genome) if @random.rand < @mutate_add_node_prob
-          mutate_add_connection(genome) if @random.rand < @mutate_add_connection_prob
-          mutate_weights(genome) if @random.rand < @mutate_weights_prob
+          mutate_add_node(genome) if @random.rand < @mutation_config.add_node_prob
+          mutate_add_connection(genome) if @random.rand < @mutation_config.add_connection_prob
+          mutate_weights(genome) if @random.rand < @mutation_config.weights_prob
         end
 
         private
@@ -60,7 +52,7 @@ module Morf
             genome,
             random: @random,
             next_innovation_number: @next_innovation_number,
-            max_attempts: @add_connection_max_attempts
+            max_attempts: @mutation_config.add_connection_max_attempts
           ).call
 
           if result
@@ -72,8 +64,8 @@ module Morf
           Weights.new(
             genome,
             random: @random,
-            new_weight_prob: @new_weight_prob,
-            weight_range: @weight_range
+            new_weight_prob: @mutation_config.new_weight_prob,
+            weight_range: @mutation_config.weight_range
           ).call
         end
       end

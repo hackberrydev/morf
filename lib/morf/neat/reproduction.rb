@@ -2,6 +2,7 @@
 
 require "morf/neat/genome"
 require "morf/neat/mutation/mutator"
+require "morf/neat/mutation/configuration"
 
 module Morf
   module NEAT
@@ -9,34 +10,19 @@ module Morf
       # @param random [Random] The random number generator.
       # @param next_node_id [Integer] The starting ID for new nodes.
       # @param next_innovation_number [Integer] The starting innovation number for new connections.
-      # @param weight_range [Range] The range to which connection weights are clamped.
-      # @param mutate_add_node_prob [Float] The probability of adding a new node.
-      # @param mutate_add_connection_prob [Float] The probability of adding a new connection.
-      # @param mutate_weights_prob [Float] The probability of mutating weights.
-      # @param new_weight_probability [Float] The probability of assigning a new weight vs. perturbing an existing one.
-      # @param add_connection_max_attempts [Integer] The number of times to try adding a connection before giving up.
+      # @param mutation_config [Morf::NEAT::Mutation::Configuration] Configuration for mutations.
       def initialize(
         random: Random,
         next_node_id: 0,
         next_innovation_number: 0,
-        weight_range: -4.0..4.0,
-        mutate_add_node_prob: 0.03,
-        mutate_add_connection_prob: 0.05,
-        mutate_weights_prob: 0.8,
-        new_weight_probability: 0.1,
-        add_connection_max_attempts: 10
+        mutation_config: Morf::NEAT::Mutation::Configuration.new
       )
         @random = random
         @mutator = Morf::NEAT::Mutation::Mutator.new(
           random: random,
           next_node_id: next_node_id,
           next_innovation_number: next_innovation_number,
-          mutate_add_node_prob: mutate_add_node_prob,
-          mutate_add_connection_prob: mutate_add_connection_prob,
-          mutate_weights_prob: mutate_weights_prob,
-          new_weight_prob: new_weight_probability,
-          weight_range: weight_range,
-          add_connection_max_attempts: add_connection_max_attempts
+          mutation_config: mutation_config
         )
       end
 

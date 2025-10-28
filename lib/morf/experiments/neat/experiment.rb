@@ -57,12 +57,16 @@ module Morf
           next_node_id = result[:next_node_id]
           best_genome_overall = nil
 
+          mutation_config = Morf::NEAT::Mutation::Configuration.new(
+            weight_range: -30.0..30.0,
+            add_node_prob: 0.2,
+            add_connection_prob: 0.2
+          )
+
           reproduction = Morf::NEAT::Reproduction.new(
             next_node_id: next_node_id,
             next_innovation_number: next_innovation_number,
-            weight_range: -30.0..30.0,
-            mutate_add_node_prob: 0.2,
-            mutate_add_connection_prob: 0.2
+            mutation_config: mutation_config
           )
 
           @generations.times do |generation|

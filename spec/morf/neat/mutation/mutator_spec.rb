@@ -2,6 +2,7 @@
 
 require "spec_helper"
 require "morf/neat/mutation/mutator"
+require "morf/neat/mutation/configuration"
 require "morf/neat/genome"
 require "morf/neat/mutation/add_node"
 require "morf/neat/mutation/add_connection"
@@ -13,18 +14,22 @@ RSpec.describe Morf::NEAT::Mutation::Mutator do
       random: random,
       next_node_id: 3,
       next_innovation_number: 2,
-      mutate_add_node_prob: 0.5,
-      mutate_add_connection_prob: 0.5,
-      mutate_weights_prob: 0.5,
+      mutation_config: mutation_config
+    )
+  end
+
+  let(:mutation_config) do
+    Morf::NEAT::Mutation::Configuration.new(
+      add_node_prob: 0.5,
+      add_connection_prob: 0.5,
+      weights_prob: 0.5,
       new_weight_prob: 0.1,
       weight_range: -4.0..4.0,
       add_connection_max_attempts: 10
     )
   end
-
   let(:random) { instance_double(Random, rand: 1.0) }
   let(:genome) { instance_double(Morf::NEAT::Genome) }
-
   let(:add_node_mutation) { instance_double(Morf::NEAT::Mutation::AddNode, call: {next_node_id: 4, next_innovation_number: 4}) }
   let(:add_connection_mutation) { instance_double(Morf::NEAT::Mutation::AddConnection, call: {next_innovation_number: 3}) }
   let(:weights_mutation) { instance_double(Morf::NEAT::Mutation::Weights, call: nil) }
