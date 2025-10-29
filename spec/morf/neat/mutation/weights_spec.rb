@@ -10,47 +10,27 @@ RSpec.describe Morf::NEAT::Mutation::Weights do
   subject(:mutation) do
     described_class.new(
       genome,
-      random: random,
-      new_weight_prob: 0.1,
-      weight_range: -4.0..4.0
+      mutation_strategy: mutation_strategy
     )
   end
 
-  let(:random) { instance_double(Random, rand: 0) }
+  let(:mutation_strategy) { double("MutationStrategy") }
   let(:genome) { Morf::NEAT::Genome.new(node_genes: [], connection_genes: connection_genes) }
   let(:connection_genes) do
     [
-      Morf::NEAT::ConnectionGene.new(in_node_id: 1, out_node_id: 2, weight: 3.95, innovation_number: 1, enabled: true)
+      Morf::NEAT::ConnectionGene.new(in_node_id: 1, out_node_id: 2, weight: 0.5, innovation_number: 1, enabled: true)
     ]
   end
 
   describe "#call" do
-    context "when perturbing a weight" do
-      it "updates the weight of a connection" do
-        connection_genes.first.weight = 0.5
-        allow(random).to receive(:rand).and_return(0.5)
-        allow(random).to receive(:rand).with(-0.1..0.1).and_return(0.05)
+    it "mutates each connection weight using the strategy" do
+      allow(mutation_strategy).to receive(:mutate_weight).with(0.5).and_return(0.8)
 
-        mutation.call
-        expect(genome.connection_genes.first.weight).to be_within(0.001).of(0.55)
-      end
+      mutation.call
 
-      it "clamps the weight to the max value" do
-        allow(random).to receive(:rand).and_return(0.5)
-        allow(random).to receive(:rand).with(-0.1..0.1).and_return(0.1)
-
-        mutation.call
-        expect(genome.connection_genes.first.weight).to eq(4.0)
-      end
-    end
-
-    context "when assigning a new weight" do
-      it "updates the weight of a connection" do
-        allow(random).to receive(:rand).and_return(0.05)
-        allow(random).to receive(:rand).with(-1.0..1.0).and_return(0.8)
-
-        mutation.call
-        expect(genome.connection_genes.first.weight).to be_within(0.001).of(0.8)
+      aggregate_failures do
+        expect(mutation_strategy).to have_received(:mutate_weight).with(0.5)
+        expect(genome.connection_genes.first.weight).to eq(0.8)
       end
     end
   end

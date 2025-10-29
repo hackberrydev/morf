@@ -8,15 +8,15 @@ module Morf
   module NEAT
     module Mutation
       class AddNode
-        def initialize(genome, random:, next_node_id:, next_innovation_number:)
+        def initialize(genome, mutation_strategy:, next_node_id:, next_innovation_number:)
           @genome = genome
-          @random = random
+          @mutation_strategy = mutation_strategy
           @next_node_id = next_node_id
           @next_innovation_number = next_innovation_number
         end
 
         def call
-          connection_to_split = @genome.connection_genes.sample(random: @random)
+          connection_to_split = @mutation_strategy.random_connection(@genome.connection_genes)
           return if connection_to_split.nil?
 
           connection_to_split.disable
@@ -24,7 +24,7 @@ module Morf
           new_node = Morf::NEAT::NodeGene.new(
             id: @next_node_id,
             type: :hidden,
-            activation_function: Morf::CPPN::ActivationFunctions.random(random: @random)
+            activation_function: @mutation_strategy.random_activation_function
           )
 
           @genome.add_node_gene(new_node)

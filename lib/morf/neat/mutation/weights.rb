@@ -4,21 +4,14 @@ module Morf
   module NEAT
     module Mutation
       class Weights
-        def initialize(genome, random:, new_weight_prob:, weight_range:)
+        def initialize(genome, mutation_strategy:)
           @genome = genome
-          @random = random
-          @new_weight_prob = new_weight_prob
-          @weight_range = weight_range
+          @mutation_strategy = mutation_strategy
         end
 
         def call
           @genome.connection_genes.each do |connection|
-            if @random.rand < @new_weight_prob
-              connection.weight = @random.rand(-1.0..1.0)
-            else
-              connection.weight += @random.rand(-0.1..0.1)
-            end
-            connection.weight = connection.weight.clamp(@weight_range)
+            connection.weight = @mutation_strategy.mutate_weight(connection.weight)
           end
         end
       end

@@ -10,13 +10,13 @@ RSpec.describe Morf::NEAT::Mutation::AddNode do
   subject(:mutation) do
     described_class.new(
       genome,
-      random: random,
+      mutation_strategy: mutation_strategy,
       next_node_id: 3,
       next_innovation_number: 2
     )
   end
 
-  let(:random) { instance_double(Random, rand: 0) }
+  let(:mutation_strategy) { double("MutationStrategy") }
 
   let(:node_genes) do
     [
@@ -36,7 +36,13 @@ RSpec.describe Morf::NEAT::Mutation::AddNode do
   describe "#call" do
     let(:result) { mutation.call }
 
-    before { result }
+    before do
+      allow(mutation_strategy).to receive_messages(
+        random_connection: connection_genes.first,
+        random_activation_function: :sigmoid
+      )
+      result
+    end
 
     it "adds a new hidden node" do
       aggregate_failures do

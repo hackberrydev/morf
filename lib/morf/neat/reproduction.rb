@@ -2,7 +2,7 @@
 
 require "morf/neat/genome"
 require "morf/neat/mutation/mutator"
-require "morf/neat/mutation/configuration"
+require "morf/neat/mutation/mutation_strategy"
 
 module Morf
   module NEAT
@@ -10,19 +10,19 @@ module Morf
       # @param random [Random] The random number generator.
       # @param next_node_id [Integer] The starting ID for new nodes.
       # @param next_innovation_number [Integer] The starting innovation number for new connections.
-      # @param mutation_config [Morf::NEAT::Mutation::Configuration] Configuration for mutations.
+      # @param mutation_config [Morf::NEAT::Mutation::MutationStrategy] Configuration for mutations.
       def initialize(
         random: Random,
         next_node_id: 0,
         next_innovation_number: 0,
-        mutation_config: Morf::NEAT::Mutation::Configuration.new
+        mutation_strategy: nil
       )
         @random = random
+        mutation_strategy ||= Morf::NEAT::Mutation::MutationStrategy.new(random: random)
         @mutator = Morf::NEAT::Mutation::Mutator.new(
-          random: random,
           next_node_id: next_node_id,
           next_innovation_number: next_innovation_number,
-          mutation_config: mutation_config
+          mutation_strategy: mutation_strategy
         )
       end
 

@@ -2,7 +2,7 @@
 
 require "spec_helper"
 require "morf/neat/mutation/mutator"
-require "morf/neat/mutation/configuration"
+require "morf/neat/mutation/mutation_strategy"
 require "morf/neat/genome"
 require "morf/neat/mutation/add_node"
 require "morf/neat/mutation/add_connection"
@@ -11,15 +11,15 @@ require "morf/neat/mutation/weights"
 RSpec.describe Morf::NEAT::Mutation::Mutator do
   subject(:mutator) do
     described_class.new(
-      random: random,
       next_node_id: 3,
       next_innovation_number: 2,
-      mutation_config: mutation_config
+      mutation_strategy: mutation_strategy
     )
   end
 
-  let(:mutation_config) do
-    Morf::NEAT::Mutation::Configuration.new(
+  let(:mutation_strategy) do
+    Morf::NEAT::Mutation::MutationStrategy.new(
+      random: random,
       add_node_prob: 0.5,
       add_connection_prob: 0.5,
       weights_prob: 0.5,
@@ -47,7 +47,7 @@ RSpec.describe Morf::NEAT::Mutation::Mutator do
           allow(random).to receive(:rand).and_return(0.4, 1.0, 1.0) # Trigger only add_node
           mutator.mutate(genome)
 
-          expect(Morf::NEAT::Mutation::AddNode).to have_received(:new).with(genome, random: random, next_node_id: 3, next_innovation_number: 2)
+          expect(Morf::NEAT::Mutation::AddNode).to have_received(:new).with(genome, mutation_strategy: mutation_strategy, next_node_id: 3, next_innovation_number: 2)
           expect(add_node_mutation).to have_received(:call)
           expect(mutator.next_node_id).to eq(4)
           expect(mutator.next_innovation_number).to eq(4)
@@ -61,7 +61,7 @@ RSpec.describe Morf::NEAT::Mutation::Mutator do
           allow(random).to receive(:rand).and_return(1.0, 0.4, 1.0) # Trigger only add_connection
           mutator.mutate(genome)
 
-          expect(Morf::NEAT::Mutation::AddConnection).to have_received(:new).with(genome, random: random, next_innovation_number: 2, max_attempts: 10)
+          expect(Morf::NEAT::Mutation::AddConnection).to have_received(:new).with(genome, mutation_strategy: mutation_strategy, next_innovation_number: 2, max_attempts: 10)
           expect(add_connection_mutation).to have_received(:call)
           expect(mutator.next_innovation_number).to eq(3)
         end
