@@ -33,7 +33,7 @@ module Morf
             # Do not create a connection if it would create a cycle
             next if path_exists?(node2.id, node1.id)
 
-            create_new_connection(node1.id, node2.id, @mutation_strategy.random_connection_weight, @next_innovation_number)
+            create_new_connection(node1.id, node2.id)
             return {next_innovation_number: @next_innovation_number + 1}
           end
 
@@ -66,13 +66,13 @@ module Morf
           false
         end
 
-        def create_new_connection(in_node_id, out_node_id, weight, innovation_number)
+        def create_new_connection(in_node_id, out_node_id)
           new_connection = Morf::NEAT::ConnectionGene.new(
             in_node_id: in_node_id,
             out_node_id: out_node_id,
-            weight: weight,
+            weight: @mutation_strategy.random_connection_weight,
             enabled: true,
-            innovation_number: innovation_number
+            innovation_number: @next_innovation_number
           )
           @genome.add_connection_gene(new_connection)
         end
