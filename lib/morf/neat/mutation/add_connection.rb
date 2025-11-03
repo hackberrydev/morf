@@ -6,15 +6,14 @@ module Morf
   module NEAT
     module Mutation
       class AddConnection
-        def initialize(genome, mutation_strategy:, next_innovation_number:, max_attempts:)
+        def initialize(genome, mutation_strategy:, next_innovation_number:)
           @genome = genome
           @mutation_strategy = mutation_strategy
           @next_innovation_number = next_innovation_number
-          @max_attempts = max_attempts
         end
 
         def call
-          @max_attempts.times do
+          @mutation_strategy.add_connection_max_attempts.times do
             node1, node2 = @mutation_strategy.random_node_pair(@genome.node_genes)
 
             next if node1.id == node2.id # Prevent self-connection

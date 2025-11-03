@@ -11,12 +11,13 @@ RSpec.describe Morf::NEAT::Mutation::AddConnection do
     described_class.new(
       genome,
       mutation_strategy: mutation_strategy,
-      next_innovation_number: 1,
-      max_attempts: 1
+      next_innovation_number: 1
     )
   end
 
-  let(:mutation_strategy) { double("MutationStrategy") }
+  let(:mutation_strategy) do
+    double("MutationStrategy", add_connection_max_attempts: 1)
+  end
   let(:input_node) { Morf::NEAT::NodeGene.new(id: 0, type: :input, activation_function: :identity) }
   let(:output_node) { Morf::NEAT::NodeGene.new(id: 1, type: :output, activation_function: :identity) }
   let(:nodes) { [input_node, output_node] }

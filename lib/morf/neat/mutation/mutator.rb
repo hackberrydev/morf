@@ -49,8 +49,7 @@ module Morf
           result = AddConnection.new(
             genome,
             mutation_strategy: @mutation_strategy,
-            next_innovation_number: @next_innovation_number,
-            max_attempts: @mutation_strategy.add_connection_max_attempts
+            next_innovation_number: @next_innovation_number
           ).call
 
           if result

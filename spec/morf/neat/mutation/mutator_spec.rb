@@ -61,7 +61,7 @@ RSpec.describe Morf::NEAT::Mutation::Mutator do
           allow(random).to receive(:rand).and_return(1.0, 0.4, 1.0) # Trigger only add_connection
           mutator.mutate(genome)
 
-          expect(Morf::NEAT::Mutation::AddConnection).to have_received(:new).with(genome, mutation_strategy: mutation_strategy, next_innovation_number: 2, max_attempts: 10)
+          expect(Morf::NEAT::Mutation::AddConnection).to have_received(:new).with(genome, mutation_strategy: mutation_strategy, next_innovation_number: 2)
           expect(add_connection_mutation).to have_received(:call)
           expect(mutator.next_innovation_number).to eq(3)
         end
