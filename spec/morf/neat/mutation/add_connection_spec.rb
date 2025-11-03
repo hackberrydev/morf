@@ -83,38 +83,5 @@ RSpec.describe Morf::NEAT::Mutation::AddConnection do
 
       expect { mutator.call }.not_to(change { genome.connection_genes.size })
     end
-
-    it "rejects a connection that would create a cycle between hidden nodes" do
-      hidden1 = Morf::NEAT::NodeGene.new(id: 2, type: :hidden, activation_function: :identity)
-      hidden2 = Morf::NEAT::NodeGene.new(id: 3, type: :hidden, activation_function: :identity)
-      genome.add_node_gene(hidden1)
-      genome.add_node_gene(hidden2)
-      # Create a path: input -> hidden1 -> hidden2 -> output
-      genome.add_connection_gene(Morf::NEAT::ConnectionGene.new(in_node_id: 0, out_node_id: 2, weight: 1.0, enabled: true, innovation_number: 10))
-      genome.add_connection_gene(Morf::NEAT::ConnectionGene.new(in_node_id: 2, out_node_id: 3, weight: 1.0, enabled: true, innovation_number: 11))
-      genome.add_connection_gene(Morf::NEAT::ConnectionGene.new(in_node_id: 3, out_node_id: 1, weight: 1.0, enabled: true, innovation_number: 12))
-
-      # Force the mutator to pick hidden2 -> hidden1, which would create a cycle
-      allow(mutation_strategy).to receive(:random_node_pair).and_return([hidden2, hidden1])
-
-      expect { mutator.call }.not_to(change { genome.connection_genes.size })
-    end
-
-    it "ignores disabled connections when checking for cycles" do
-      hidden1 = Morf::NEAT::NodeGene.new(id: 2, type: :hidden, activation_function: :identity)
-      hidden2 = Morf::NEAT::NodeGene.new(id: 3, type: :hidden, activation_function: :identity)
-      genome.add_node_gene(hidden1)
-      genome.add_node_gene(hidden2)
-      # Create a disabled path: hidden1 -> hidden2
-      genome.add_connection_gene(Morf::NEAT::ConnectionGene.new(in_node_id: 2, out_node_id: 3, weight: 1.0, enabled: false, innovation_number: 11))
-
-      # Force the mutator to pick hidden2 -> hidden1. This should be allowed as the path is disabled.
-      allow(mutation_strategy).to receive_messages(
-        random_node_pair: [hidden2, hidden1],
-        random_connection_weight: 0.5
-      )
-
-      expect { mutator.call }.to change { genome.connection_genes.size }.by(1)
-    end
   end
 end

@@ -32,6 +32,30 @@ module Morf
         end
       end
 
+      # Performs a breadth-first search to see if a path exists from `from_id` to `to_id`
+      def path_exists?(from_id, to_id)
+        stack = [from_id]
+        visited = Set.new
+
+        until stack.empty?
+          current_id = stack.pop
+
+          next if visited.include?(current_id)
+          visited.add(current_id)
+
+          @connection_genes.each do |gene|
+            next unless gene.enabled? && gene.in_node_id == current_id
+
+            out_node_id = gene.out_node_id
+            return true if out_node_id == to_id
+
+            stack.push(out_node_id)
+          end
+        end
+
+        false
+      end
+
       def nodes_count
         @node_genes.count
       end

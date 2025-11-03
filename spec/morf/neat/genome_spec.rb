@@ -105,4 +105,93 @@ RSpec.describe Morf::NEAT::Genome do
       end
     end
   end
+
+  describe "#connection_exists?" do
+    it "returns true when a connection exists between two nodes" do
+      expect(genome.connection_exists?(1, 2)).to be(true)
+    end
+
+    it "returns false when no connection exists between two nodes" do
+      expect(genome.connection_exists?(2, 1)).to be(false)
+    end
+  end
+
+  describe "#path_exists?" do
+    let(:node_genes) do
+      [
+        Morf::NEAT::NodeGene.new(id: 0, type: :input, activation_function: :identity),
+        Morf::NEAT::NodeGene.new(id: 1, type: :output, activation_function: :identity),
+        Morf::NEAT::NodeGene.new(id: 2, type: :hidden, activation_function: :identity),
+        Morf::NEAT::NodeGene.new(id: 3, type: :hidden, activation_function: :identity)
+      ]
+    end
+
+    context "when there is a direct connection" do
+      let(:connection_genes) do
+        [
+          Morf::NEAT::ConnectionGene.new(in_node_id: 0, out_node_id: 1, weight: 1.0, enabled: true, innovation_number: 1)
+        ]
+      end
+
+      it "returns true" do
+        expect(genome.path_exists?(0, 1)).to be(true)
+      end
+    end
+
+    context "when there is an indirect path" do
+      let(:connection_genes) do
+        [
+          Morf::NEAT::ConnectionGene.new(in_node_id: 0, out_node_id: 2, weight: 1.0, enabled: true, innovation_number: 1),
+          Morf::NEAT::ConnectionGene.new(in_node_id: 2, out_node_id: 3, weight: 1.0, enabled: true, innovation_number: 2),
+          Morf::NEAT::ConnectionGene.new(in_node_id: 3, out_node_id: 1, weight: 1.0, enabled: true, innovation_number: 3)
+        ]
+      end
+
+      it "returns true" do
+        expect(genome.path_exists?(0, 1)).to be(true)
+      end
+
+      it "returns true for intermediate nodes in the path" do
+        expect(genome.path_exists?(2, 1)).to be(true)
+      end
+    end
+
+    context "when there is no path" do
+      let(:connection_genes) do
+        [
+          Morf::NEAT::ConnectionGene.new(in_node_id: 0, out_node_id: 2, weight: 1.0, enabled: true, innovation_number: 1)
+        ]
+      end
+
+      it "returns false" do
+        expect(genome.path_exists?(2, 0)).to be(false)
+      end
+    end
+
+    context "when the path only exists through disabled connections" do
+      let(:connection_genes) do
+        [
+          Morf::NEAT::ConnectionGene.new(in_node_id: 2, out_node_id: 3, weight: 1.0, enabled: false, innovation_number: 1)
+        ]
+      end
+
+      it "returns false" do
+        expect(genome.path_exists?(2, 3)).to be(false)
+      end
+    end
+
+    context "when there is a mix of enabled and disabled connections" do
+      let(:connection_genes) do
+        [
+          Morf::NEAT::ConnectionGene.new(in_node_id: 0, out_node_id: 2, weight: 1.0, enabled: true, innovation_number: 1),
+          Morf::NEAT::ConnectionGene.new(in_node_id: 2, out_node_id: 3, weight: 1.0, enabled: false, innovation_number: 2),
+          Morf::NEAT::ConnectionGene.new(in_node_id: 3, out_node_id: 1, weight: 1.0, enabled: true, innovation_number: 3)
+        ]
+      end
+
+      it "ignores disabled connections when finding paths" do
+        expect(genome.path_exists?(0, 1)).to be(false)
+      end
+    end
+  end
 end

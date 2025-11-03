@@ -31,7 +31,7 @@ module Morf
             next if @genome.connection_exists?(node1.id, node2.id)
 
             # Do not create a connection if it would create a cycle
-            next if path_exists?(node2.id, node1.id)
+            next if @genome.path_exists?(node2.id, node1.id)
 
             create_new_connection(node1.id, node2.id)
             return {next_innovation_number: @next_innovation_number + 1}
@@ -41,30 +41,6 @@ module Morf
         end
 
         private
-
-        # Performs a breadth-first search to see if a path exists from `from_id` to `to_id`
-        def path_exists?(from_id, to_id)
-          stack = [from_id]
-          visited = Set.new
-
-          until stack.empty?
-            current_id = stack.pop
-
-            next if visited.include?(current_id)
-            visited.add(current_id)
-
-            @genome.connection_genes.each do |gene|
-              next unless gene.enabled? && gene.in_node_id == current_id
-
-              out_node_id = gene.out_node_id
-              return true if out_node_id == to_id
-
-              stack.push(out_node_id)
-            end
-          end
-
-          false
-        end
 
         def create_new_connection(in_node_id, out_node_id)
           new_connection = Morf::NEAT::ConnectionGene.new(
