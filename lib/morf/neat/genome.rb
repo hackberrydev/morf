@@ -32,7 +32,8 @@ module Morf
         end
       end
 
-      # Performs a breadth-first search to see if a path exists from `from_id` to `to_id`
+      # Performs a breadth-first search to see if a path exists from `from_id`
+      # to `to_id`.
       def path_exists?(from_id, to_id)
         stack = [from_id]
         visited = Set.new
