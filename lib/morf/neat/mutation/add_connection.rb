@@ -17,7 +17,6 @@ module Morf
           @max_attempts.times do
             node1, node2 = @mutation_strategy.random_node_pair(@genome.node_genes)
 
-            next if node1.nil? || node2.nil?
             next if node1.id == node2.id # Prevent self-connection
 
             # Ensure the connection is feed-forward. If node1 is an output or node2 is an input, try swapping them.
