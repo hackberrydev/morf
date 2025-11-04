@@ -21,13 +21,7 @@ module Morf
 
           connection_to_split.disable
 
-          new_node = Morf::NEAT::NodeGene.new(
-            id: @next_node_id,
-            type: :hidden,
-            activation_function: @mutation_strategy.random_activation_function
-          )
-
-          @genome.add_node_gene(new_node)
+          new_node = create_new_node
 
           create_new_connection(
             connection_to_split.in_node_id,
@@ -47,6 +41,16 @@ module Morf
         end
 
         private
+
+        def create_new_node
+          Morf::NEAT::NodeGene.new(
+            id: @next_node_id,
+            type: :hidden,
+            activation_function: @mutation_strategy.random_activation_function
+          ).tap do |node|
+            @genome.add_node_gene(node)
+          end
+        end
 
         def create_new_connection(in_node_id, out_node_id, weight, innovation_number)
           new_connection = Morf::NEAT::ConnectionGene.new(
