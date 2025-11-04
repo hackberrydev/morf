@@ -22,8 +22,16 @@ module Morf
         @node_genes << node_gene
       end
 
+      def nodes_count
+        @node_genes.count
+      end
+
       def add_connection_gene(connection_gene)
         @connection_genes << connection_gene
+      end
+
+      def connections_count
+        @connection_genes.count
       end
 
       def connection_exists?(in_node_id, out_node_id)
@@ -56,14 +64,6 @@ module Morf
         end
 
         false
-      end
-
-      def nodes_count
-        @node_genes.count
-      end
-
-      def connections_count
-        @connection_genes.count
       end
     end
   end
