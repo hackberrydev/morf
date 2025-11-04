@@ -56,10 +56,9 @@ module Morf
           enabled_connections.each do |gene|
             next unless gene.in_node_id == current_id
 
-            out_node_id = gene.out_node_id
-            return true if out_node_id == to_id
+            return true if gene.out_node_id == to_id
 
-            stack.push(out_node_id)
+            stack.push(gene.out_node_id)
           end
         end
 
