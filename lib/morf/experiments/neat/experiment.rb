@@ -5,6 +5,8 @@ require "csv"
 require "morf/experiments/neat/constants"
 require "morf/experiments/neat/genome_developmental_trial"
 require "morf/neat/initial_population_factory"
+require "morf/neat/mutation/mutator"
+require "morf/neat/mutation/mutation_strategy"
 require "morf/neat/population"
 require "morf/neat/reproduction"
 require "morf/neat/speciation"
@@ -66,12 +68,13 @@ module Morf
             add_connection_prob: 0.2
           )
 
-          reproduction = Morf::NEAT::Reproduction.new(
-            random: random,
+          mutator = Morf::NEAT::Mutation::Mutator.new(
             next_node_id: next_node_id,
             next_innovation_number: next_innovation_number,
             mutation_strategy: mutation_strategy
           )
+
+          reproduction = Morf::NEAT::Reproduction.new(random: random)
 
           @generations.times do |generation|
             @population.genomes.each { |genome| run_developmental_trial(genome) }
@@ -143,7 +146,7 @@ module Morf
                 parent2 = s.sample
 
                 child = reproduction.duel(parent1, parent2)
-                reproduction.mutate(child)
+                mutator.mutate(child)
                 next_generation << child
               end
             end
