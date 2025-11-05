@@ -30,14 +30,6 @@ module Morf
         @mutator.mutate(genome)
       end
 
-      def next_node_id
-        @mutator.next_node_id
-      end
-
-      def next_innovation_number
-        @mutator.next_innovation_number
-      end
-
       def crossover(parent1, parent2, fitness1, fitness2)
         child_connection_genes = []
         parent1_connections = parent1.connection_genes.sort_by(&:innovation_number)
