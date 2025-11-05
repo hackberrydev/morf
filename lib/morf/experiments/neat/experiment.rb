@@ -8,7 +8,7 @@ require "morf/neat/initial_population_factory"
 require "morf/neat/mutation/mutator"
 require "morf/neat/mutation/mutation_strategy"
 require "morf/neat/population"
-require "morf/neat/reproduction"
+require "morf/neat/reproduction/duel"
 require "morf/neat/speciation"
 
 module Morf
@@ -74,7 +74,7 @@ module Morf
             mutation_strategy: mutation_strategy
           )
 
-          reproduction = Morf::NEAT::Reproduction.new(random: random)
+          reproduction = Morf::NEAT::Reproduction::Duel.new(random: random)
 
           @generations.times do |generation|
             @population.genomes.each { |genome| run_developmental_trial(genome) }
@@ -145,7 +145,7 @@ module Morf
                 parent1 = s.sample
                 parent2 = s.sample
 
-                child = reproduction.duel(parent1, parent2)
+                child = reproduction.reproduce(parent1, parent2)
                 mutator.mutate(child)
                 next_generation << child
               end
