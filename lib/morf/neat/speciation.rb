@@ -3,6 +3,8 @@
 module Morf
   module NEAT
     class Speciation
+      SMALL_GENOME_THRESHOLD = 20
+
       # @param population [Array<Morf::NEAT::Genome>] The population of genomes to be speciated.
       # @param compatibility_threshold [Float] The compatibility threshold. If the distance between two
       #   genomes is less than this value, they are considered to be in the same species.
@@ -53,7 +55,7 @@ module Morf
         excess = (genes1.length - idx1) + (genes2.length - idx2)
 
         n = [genes1.length, genes2.length].max
-        n = 1 if n < 20
+        n = 1 if n < SMALL_GENOME_THRESHOLD
 
         avg_weight_diff = matching.zero? ? 0 : weight_diff / matching
 
