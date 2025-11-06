@@ -65,23 +65,22 @@ module Morf
       end
 
       def speciate
-        species = []
-
-        @population.each do |genome|
-          found_species = false
-          species.each do |s|
-            representative = s.first
-            if distance(genome, representative) < @compatibility_threshold
-              s << genome
-              found_species = true
-              break
-            end
+        @population.each_with_object([]) do |genome, species|
+          if (s = find_species(species, genome))
+            s << genome
+          else
+            species << [genome]
           end
-
-          species << [genome] unless found_species
         end
+      end
 
-        species
+      private
+
+      def find_species(species, genome)
+        species.find do |s|
+          representative = s.first
+          distance(genome, representative) < @compatibility_threshold
+        end
       end
     end
   end
