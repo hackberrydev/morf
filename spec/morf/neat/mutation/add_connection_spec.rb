@@ -16,8 +16,9 @@ RSpec.describe Morf::NEAT::Mutation::AddConnection do
   end
 
   let(:mutation_strategy) do
-    double("MutationStrategy", add_connection_max_attempts: 1)
+    instance_double(Morf::NEAT::Mutation::MutationStrategy, add_connection_max_attempts: 1)
   end
+
   let(:input_node) { Morf::NEAT::NodeGene.new(id: 0, type: :input, activation_function: :identity) }
   let(:output_node) { Morf::NEAT::NodeGene.new(id: 1, type: :output, activation_function: :identity) }
   let(:nodes) { [input_node, output_node] }

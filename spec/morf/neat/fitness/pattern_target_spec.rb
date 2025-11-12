@@ -7,7 +7,12 @@ require "morf/cell"
 RSpec.describe Morf::NEAT::Fitness::PatternTarget do
   subject(:pattern_target) { described_class.new(target_pattern) }
 
-  let(:target_pattern) { [[1, 1], [1, 1]] }
+  let(:target_pattern) do
+    [
+      [1, 1],
+      [1, 1]
+    ]
+  end
 
   it "is initialized with a target_pattern" do
     expect(pattern_target.target_pattern).to eq(target_pattern)
