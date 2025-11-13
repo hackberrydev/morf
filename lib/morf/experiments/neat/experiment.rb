@@ -79,7 +79,7 @@ module Morf
           @generations.times do |generation|
             @population.genomes.each { |genome| run_developmental_trial(genome) }
 
-            best_genome_generation = @population.genomes.max_by(&:fitness)
+            best_genome_generation = @population.best_genome
             if best_genome_overall.nil? || best_genome_generation.fitness > best_genome_overall.fitness
               best_genome_overall = best_genome_generation
             end
@@ -138,10 +138,12 @@ module Morf
             species.each_with_index do |s, i|
               # Elitism
               s.sort_by!(&:fitness).reverse!
-              next_generation.push(*s.take(Morf::Experiments::NEAT::Constants::ELITISM_DEGREE))
+              elitism_degree = Morf::Experiments::NEAT::Constants::ELITISM_DEGREE
+              next_generation.push(*s.take(elitism_degree))
 
               # Duel and mutation
-              (species_offspring_counts[i] - 1).times do
+              offspring_count = species_offspring_counts[i] - elitism_degree
+              offspring_count.times do
                 parent1 = s.sample
                 parent2 = s.sample
 
