@@ -4,6 +4,7 @@ require "csv"
 
 require "morf/experiments/neat/constants"
 require "morf/experiments/neat/genome_developmental_trial"
+require "morf/experiments/neat/offspring_allocator"
 require "morf/neat/initial_population_factory"
 require "morf/neat/mutation/mutator"
 require "morf/neat/mutation/mutation_strategy"
@@ -111,27 +112,10 @@ module Morf
             end
 
             # Determine offspring counts
-            total_adjusted_fitness = @population.genomes.sum(&:adjusted_fitness)
-            if total_adjusted_fitness.zero?
-              # Handle the case where all fitnesses are zero
-              species_offspring_counts = Array.new(species.size, @population_size / species.size)
-              (@population_size % species.size).times { |i| species_offspring_counts[i] += 1 }
-            else
-              offspring_floats = species.map do |s|
-                species_adjusted_fitness = s.sum(&:adjusted_fitness)
-                species_adjusted_fitness / total_adjusted_fitness * @population_size
-              end
-
-              species_offspring_counts = offspring_floats.map(&:to_i)
-              remainders = offspring_floats.map.with_index { |f, i| [f - species_offspring_counts[i], i] }
-              remainders.sort_by! { |r, _| -r } # Sort by remainder descending
-
-              missing_offspring = @population_size - species_offspring_counts.sum
-              missing_offspring.times do |i|
-                species_index = remainders[i][1]
-                species_offspring_counts[species_index] += 1
-              end
-            end
+            offspring_allocator = Morf::Experiments::NEAT::OffspringAllocator.new(
+              population_size: @population_size
+            )
+            species_offspring_counts = offspring_allocator.allocate(species)
 
             # Create next generation
             next_generation = []
