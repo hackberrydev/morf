@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require "morf/cppn/sensor"
+require "morf/sensors/moore_sensor"
 require "morf/grid"
 require "morf/cell"
 
-RSpec.describe Morf::CPPN::Sensor do
+RSpec.describe Morf::Sensors::MooreSensor do
   subject(:sensor) { described_class.new(grid: grid, row: 1, column: 1) }
 
   let(:grid) do

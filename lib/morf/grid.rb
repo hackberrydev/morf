@@ -7,8 +7,8 @@ module Morf
   class Grid
     attr_reader :rows, :columns
 
-    def initialize(brain_class:, sensor_class:, clock:, rows:, columns:, seed:)
-      @brain_class = brain_class
+    def initialize(brain_factory:, sensor_class:, clock:, rows:, columns:, seed:)
+      @brain_factory = brain_factory
       @sensor_class = sensor_class
       @clock = clock
       @rows = rows
@@ -25,6 +25,10 @@ module Morf
       @grid[row][column]
     end
 
+    def total_cells
+      @rows * @columns
+    end
+
     private
 
     def out_of_bounds?(row:, column:)
@@ -39,7 +43,7 @@ module Morf
 
         (0...@columns).each do |column|
           grid[row][column] = Morf::Cell.new(
-            brain: @brain_class.new,
+            brain: @brain_factory.create_brain,
             sensor: @sensor_class.new(grid: self, row: row, column: column),
             clock: @clock,
             state: @seed.state_for(row: row, column: column)

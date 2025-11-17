@@ -1,0 +1,68 @@
+# frozen_string_literal: true
+
+require "morf/neat/node_gene"
+require "morf/neat/connection_gene"
+require "morf/cppn/activation_functions"
+
+module Morf
+  module NEAT
+    module Mutation
+      class AddNode
+        def initialize(genome, mutation_strategy:, next_node_id:, next_innovation_number:)
+          @genome = genome
+          @mutation_strategy = mutation_strategy
+          @next_node_id = next_node_id
+          @next_innovation_number = next_innovation_number
+        end
+
+        def call
+          connection_to_split = @mutation_strategy.random_connection(@genome.connection_genes)
+          return if connection_to_split.nil?
+
+          connection_to_split.disable
+
+          new_node = create_new_node
+
+          create_new_connection(
+            connection_to_split.in_node_id,
+            new_node.id,
+            1.0,
+            @next_innovation_number
+          )
+
+          create_new_connection(
+            new_node.id,
+            connection_to_split.out_node_id,
+            connection_to_split.weight,
+            @next_innovation_number + 1
+          )
+
+          {next_node_id: @next_node_id + 1, next_innovation_number: @next_innovation_number + 2}
+        end
+
+        private
+
+        def create_new_node
+          Morf::NEAT::NodeGene.new(
+            id: @next_node_id,
+            type: :hidden,
+            activation_function: @mutation_strategy.random_activation_function
+          ).tap do |node|
+            @genome.add_node_gene(node)
+          end
+        end
+
+        def create_new_connection(in_node_id, out_node_id, weight, innovation_number)
+          new_connection = Morf::NEAT::ConnectionGene.new(
+            in_node_id: in_node_id,
+            out_node_id: out_node_id,
+            weight: weight,
+            enabled: true,
+            innovation_number: innovation_number
+          )
+          @genome.add_connection_gene(new_connection)
+        end
+      end
+    end
+  end
+end

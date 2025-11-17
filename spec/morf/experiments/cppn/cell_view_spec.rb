@@ -1,56 +1,30 @@
-# frozen_string_literal: true
-
 require "spec_helper"
 require "morf/experiments/cppn/cell_view"
-require "morf/cell"
-require "ruby2d"
 
 RSpec.describe Morf::Experiments::CPPN::CellView do
   subject(:cell_view) do
-    described_class.new(cell: cell, cell_size: cell_size, x: x, y: y)
+    described_class.new(
+      cell: cell,
+      cell_size: 10,
+      x: 0,
+      y: 0,
+      color_map: color_map
+    )
   end
 
-  let(:cell) { instance_double(Morf::Cell) }
-  let(:cell_size) { 10 }
-  let(:x) { 1 }
-  let(:y) { 2 }
-  let(:rectangle) { instance_double(Rectangle, color: nil, "color=": nil) }
+  let(:cell) { double("Cell", state: 1) }
+  let(:color_map) { {0 => "black", 1 => "white"} }
+  let(:rectangle) { double("Rectangle") }
 
   before do
     allow(Rectangle).to receive(:new).and_return(rectangle)
+    allow(rectangle).to receive(:color=)
   end
 
   describe "#render" do
-    context "when cell state is 0" do
-      it "renders a white rectangle" do
-        allow(cell).to receive(:state).and_return(0)
-        cell_view.render
-        expect(rectangle).to have_received(:color=).with("white")
-      end
-    end
-
-    context "when cell state is 1" do
-      it "renders a red rectangle" do
-        allow(cell).to receive(:state).and_return(1)
-        cell_view.render
-        expect(rectangle).to have_received(:color=).with("red")
-      end
-    end
-
-    context "when cell state is 2" do
-      it "renders a green rectangle" do
-        allow(cell).to receive(:state).and_return(2)
-        cell_view.render
-        expect(rectangle).to have_received(:color=).with("green")
-      end
-    end
-
-    context "when cell state is 3" do
-      it "renders a blue rectangle" do
-        allow(cell).to receive(:state).and_return(3)
-        cell_view.render
-        expect(rectangle).to have_received(:color=).with("blue")
-      end
+    it "sets the rectangle color based on the cell state and color map" do
+      cell_view.render
+      expect(rectangle).to have_received(:color=).with("white")
     end
   end
 end

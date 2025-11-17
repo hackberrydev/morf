@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+require "morf"
+require "morf/cppn/brain"
+require "morf/sensors/von_neumann_sensor"
+require "morf/neat/connection_gene"
+require "morf/neat/genome"
+require "morf/neat/network_builder"
+require "morf/neat/node_gene"
+require "morf/experiments/cppn/cell_view"
+require "morf/experiments/neat/constants"
+require "morf/experiments/neat/seed"
+require "morf/static_brain_factory"
+
+if ARGV.empty?
+  puts "Usage: #{$PROGRAM_NAME} <path_to_genome_dump>"
+  exit 1
+end
+
+genome_file = ARGV.first
+
+puts "Visualizing genome from #{genome_file}"
+
+genome = File.open(genome_file, "rb") do |f|
+  Marshal.load(f)
+end
+
+clock = Morf::Clock.new
+network = Morf::NEAT::NetworkBuilder.new(genome).build
+brain = Morf::CPPN::Brain.new(network: network)
+brain_factory = Morf::StaticBrainFactory.new(brain)
+seed_pattern = Morf::Experiments::NEAT::Constants::SEED_PATTERN
+seed = Morf::Experiments::NEAT::Seed.new(seed_pattern)
+
+grid = Morf::Grid.new(
+  rows: Morf::Experiments::NEAT::Constants::GRID_SIZE,
+  columns: Morf::Experiments::NEAT::Constants::GRID_SIZE,
+  seed: seed,
+  brain_factory: brain_factory,
+  sensor_class: Morf::Sensors::VonNeumannSensor,
+  clock: clock
+)
+
+view = Morf::GridView.new(
+  grid: grid,
+  cell_size: 50,
+  color_map: Morf::Experiments::NEAT::Constants::COLOR_MAP,
+  cell_view_class: Morf::Experiments::CPPN::CellView,
+  clock: clock,
+  time_limit: 60
+)
+
+view.show

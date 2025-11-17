@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Morf
-  module CPPN
-    class Sensor
+  module Sensors
+    class MooreSensor
       def initialize(grid:, row:, column:)
         @grid = grid
         @row = row

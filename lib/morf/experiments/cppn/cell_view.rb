@@ -6,22 +6,16 @@ module Morf
   module Experiments
     module CPPN
       class CellView
-        COLORS = {
-          0 => "white",
-          1 => "red",
-          2 => "green",
-          3 => "blue"
-        }.freeze
-
-        def initialize(cell:, cell_size:, x:, y:)
+        def initialize(cell:, cell_size:, x:, y:, color_map:)
           @cell = cell
           @cell_size = cell_size
           @x = x
           @y = y
+          @color_map = color_map
         end
 
         def render
-          rectangle.color = COLORS[@cell.state]
+          rectangle.color = @color_map[@cell.state]
         end
 
         private

@@ -15,7 +15,8 @@ patterns:
 
 ignore:
   - "spec/**/*":
-    - "RSpec/VerifiedDoubles"
     - "RSpec/ExampleLength"
     - "RSpec/IndexedLet"
+    - "RSpec/MultipleMemoizedHelpers"
+    - "RSpec/VerifiedDoubles"
   - "spec/spec_helper.rb"
