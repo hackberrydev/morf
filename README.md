@@ -2,31 +2,13 @@
 
 An experiment in morphogenesis.
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem "morf"
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install morf
-
-## Usage
-
-Require the library:
-
-```ruby
-require "morf"
-```
-
 ## Development
+
+Install the following packages on Debian and related Linux distributions:
+
+```bash
+sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
+```
 
 After checking out the repo, run `bundle install` to install dependencies.
 
